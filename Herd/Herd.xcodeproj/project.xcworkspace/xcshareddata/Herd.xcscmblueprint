@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "233CED5A864A56EE0245127FDD67E9E5AEA7432D",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "233CED5A864A56EE0245127FDD67E9E5AEA7432D" : 0,
+    "92CBA65579F61C75FEC665D01E78C47FFFAA6B01" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "137F37CE-4F8B-47F8-AF30-4D9FFF99CD7C",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "233CED5A864A56EE0245127FDD67E9E5AEA7432D" : "herd\/",
+    "92CBA65579F61C75FEC665D01E78C47FFFAA6B01" : "360iDev2016\/AudioKit\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Herd",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Herd\/Herd.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/FrozenFireStudios\/herd.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "233CED5A864A56EE0245127FDD67E9E5AEA7432D"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/audiokit\/AudioKit.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "92CBA65579F61C75FEC665D01E78C47FFFAA6B01"
+    }
+  ]
+}
