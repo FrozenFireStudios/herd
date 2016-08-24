@@ -26,8 +26,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Conductor.sharedInstance.playSound(forKey: .BackgroundMusicKey)
-        
         view.backgroundColor = UIColor(red: 0.1, green: 1.0, blue: 0.1, alpha: 1.0)
         
         let scene = SCNScene()
@@ -114,6 +112,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         }
         
         scnView.playing = true
+        Conductor.sharedInstance.playSound(forKey: .BackgroundMusicKey)
     }
     
     override func shouldAutorotate() -> Bool {
