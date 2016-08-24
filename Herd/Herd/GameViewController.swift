@@ -12,6 +12,10 @@ import SceneKit
 
 class GameViewController: UIViewController {
     
+    var scnView: SCNView? {
+        return view as? SCNView
+    }
+    
     override func loadView() {
         view = SCNView()
     }
@@ -19,23 +23,17 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // create a new scene
         let scene = SCNScene(named: "art.scnassets/ship.scn")!
         
-        // create and add a camera to the scene
-        let cameraNode = SCNNode()
-        cameraNode.camera = SCNCamera()
+        // Set up the camera
         scene.rootNode.addChildNode(cameraNode)
-        
-        // place the camera
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: 15)
         
         // create and add a light to the scene
         let lightNode = SCNNode()
         lightNode.light = SCNLight()
         lightNode.light!.type = SCNLightTypeOmni
-        lightNode.position = SCNVector3(x: 0, y: 10, z: 10)
-        scene.rootNode.addChildNode(lightNode)
+        lightNode.position = SCNVector3(x: 0, y: 50, z: 0)
+        cameraNode.addChildNode(lightNode)
         
         // create and add an ambient light to the scene
         let ambientLightNode = SCNNode()
@@ -50,33 +48,27 @@ class GameViewController: UIViewController {
         // animate the 3d object
         ship.runAction(SCNAction.repeatActionForever(SCNAction.rotateByX(0, y: 2, z: 0, duration: 1)))
         
-        // retrieve the SCNView
-        let scnView = self.view as! SCNView
-        
-        // set the scene to the view
-        scnView.scene = scene
-        
-        // allows the user to manipulate the camera
-        scnView.allowsCameraControl = true
-        
-        // show statistics such as fps and timing information
-        scnView.showsStatistics = true
-        
-        // configure the view
-        scnView.backgroundColor = UIColor.blackColor()
+        scnView?.scene = scene
+        scnView?.showsStatistics = true
+        scnView?.backgroundColor = UIColor.greenColor()
         
         // add a tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        scnView.addGestureRecognizer(tapGesture)
+        view.addGestureRecognizer(tapGesture)
+        
+        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
+        view.addGestureRecognizer(pinchGesture)
     }
     
     func handleTap(gestureRecognize: UIGestureRecognizer) {
-        // retrieve the SCNView
-        let scnView = self.view as! SCNView
+        let point = gestureRecognize.locationInView(view)
         
-        // check what nodes are tapped
-        let p = gestureRecognize.locationInView(scnView)
-        let hitResults = scnView.hitTest(p, options: nil)
+        guard let scnView = scnView else {
+            return
+        }
+        
+        let hitResults = scnView.hitTest(point, options: nil)
+        
         // check that we clicked on at least one object
         if hitResults.count > 0 {
             // retrieved the first clicked object
@@ -103,6 +95,20 @@ class GameViewController: UIViewController {
             
             SCNTransaction.commit()
         }
+        else {
+            let boxGeometry = SCNBox(width: 2.0, height: 2.0, length: 2.0, chamferRadius: 0.0)
+            
+            // The zeropoint for the z isn't actually even, so grab our origin.
+            let projectedOrigin = scnView.projectPoint(SCNVector3Zero)
+            let touchPoint = SCNVector3(x: Float(point.x), y: Float(point.y), z: projectedOrigin.z)
+            let convertedPoint = scnView.unprojectPoint(touchPoint)
+            
+            let box = SCNNode(geometry: boxGeometry)
+            box.position = convertedPoint
+            scnView.scene?.rootNode.addChildNode(box)
+            
+            box.runAction(SCNAction.repeatActionForever(SCNAction.rotateByX(2, y: 2, z: 2, duration: 1)))
+        }
     }
     
     override func shouldAutorotate() -> Bool {
@@ -121,9 +127,34 @@ class GameViewController: UIViewController {
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
+    //==========================================================================
+    // MARK: - Camera
+    //==========================================================================
+    
+    lazy var cameraNode: SCNNode = {
+        let cameraNode = SCNNode()
+        cameraNode.camera = SCNCamera()
+        
+        cameraNode.position = SCNVector3(x: 0, y: 0, z: 25)
+//        cameraNode.eulerAngles = SCNVector3(x: -Float(M_PI_2), y: 0.0, z: 0.0)
+        
+        return cameraNode
+    }()
+    
+    var startingPosition: SCNVector3 = SCNVector3Zero
+    func handlePinch(gesture: UIPinchGestureRecognizer) {
+        if gesture.state == .Began {
+            startingPosition = cameraNode.position
+        }
+        if gesture.state == .Changed {
+            let zFar: Float = Float(cameraNode.camera?.zFar ?? 100.0)
+            let buffer: Float = 10.0
+            
+            let startPoint = startingPosition.z
+            var z = startPoint + (startPoint - (startPoint * Float(gesture.scale)))
+            z = min(z, zFar - buffer)
+            z = max(z, buffer)
+            cameraNode.position.z = z
+        }
     }
-
 }
