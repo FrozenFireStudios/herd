@@ -26,7 +26,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Conductor.sharedInstance.backgroundMusic.play()
+//        Conductor.sharedInstance.backgroundMusic.play()
         
         view.backgroundColor = UIColor.lightGrayColor()
         
@@ -203,7 +203,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         
         let pan = Double(((point.x / self.view.frame.width) * 2) - 1)
         Conductor.sharedInstance.barkLoudPanner.pan = pan
-        
         Conductor.sharedInstance.barkLoud.play()
     }
     

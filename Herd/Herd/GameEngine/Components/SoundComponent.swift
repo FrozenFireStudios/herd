@@ -13,6 +13,7 @@ class SoundComponent: GKComponent {
     func makeSound(named: String, angle: Float? = nil) {
         if let angle = angle {
             print("Make sound named", named, "with angle", angle)
+            Conductor.sharedInstance.soundDict[named]?.play()
         }
         else {
             print("Make sound named", named)

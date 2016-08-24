@@ -8,6 +8,17 @@
 
 import AudioKit
 
+enum SoundKey: String {
+    case BackgroundMusicKey
+    case BarkLoudKey
+    case TwoBarkKey
+    case SheepSoundKey
+    case DyingSheepKey
+    case CrowdBooingKey
+    case CrowdCheeringKey
+    case SuccessPingKey
+}
+
 class Conductor {
     static let sharedInstance = Conductor()
     
@@ -28,6 +39,8 @@ class Conductor {
     var dyingSheep: AKAudioPlayer
     var dyingSheepEffect: AKOperationEffect
     var dyingSheepBooster: AKBooster
+    
+    var soundDict = [String : AKNode]()
     
     init() {
         let barkLoudFile = try! AKAudioFile(readFileName: "Sounds/dogbarkLoud.wav")
@@ -56,6 +69,12 @@ class Conductor {
         
         let successFile = try! AKAudioFile(readFileName: "Sounds/shorterGlassPing.wav")
         successPing = try! AKAudioPlayer(file: successFile)
+       
+        let successMixer = AKMixer(successPing)
+        
+        let reverb = AKCostelloReverb(successMixer)
+        
+        let dryWetSuccessMixer = AKDryWetMixer(successMixer, reverb, balance: 0.6)
       
         let dyingSheepFile = try! AKAudioFile(readFileName: "Sounds/SheepBleat.wav")
         dyingSheep = try! AKAudioPlayer(file: dyingSheepFile)
@@ -69,12 +88,34 @@ class Conductor {
         dyingSheepEffect.parameters = [8.836, 2.618, 1.524]
         
         dyingSheepBooster = AKBooster(dyingSheepEffect, gain: 2)
-        
-        let mixer = AKMixer(barkLoudPanner, twoBarkPanner, sheep1, dyingSheepBooster, boo, cheer, successPing, backgroundSampler)
+       
+        // what we need to put in the mixer so things that get play()ed sound right
+        let mixer = AKMixer(barkLoudPanner, twoBarkPanner, sheep1, dyingSheepBooster, boo, cheer, dryWetSuccessMixer, backgroundSampler)
         
         AudioKit.output = mixer
         AudioKit.start()
         
         backgroundMusic = AKSequencer(filename: "Sounds/smwintro", engine: AudioKit.engine)
+    }
+    
+    static func playSound(forKey key: SoundKey) {
+        switch key {
+        case .BarkLoudKey:
+            sharedInstance.barkLoud.play()
+        case .TwoBarkKey:
+            sharedInstance.twoBark.play()
+        case .SheepSoundKey:
+            sharedInstance.sheep1.play()
+        case .DyingSheepKey:
+            sharedInstance.dyingSheep.play()
+        case .CrowdBooingKey:
+            sharedInstance.boo.play()
+        case .CrowdCheeringKey:
+            sharedInstance.cheer.play()
+        case .SuccessPingKey:
+            sharedInstance.successPing.play()
+        case .BackgroundMusicKey:
+            sharedInstance.backgroundMusic.play()
+        }
     }
 }

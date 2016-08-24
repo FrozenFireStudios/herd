@@ -30,6 +30,6 @@ class DogEntity: GKEntity {
         guard let soundComponent = componentForClass(SoundComponent.self) else { return }
         
         let soundAngle = componentForClass(MovementComponent.self)?.rotation
-        soundComponent.makeSound("bark", angle: soundAngle)
+        soundComponent.makeSound(BarkLoudKey, angle: soundAngle)
     }
 }
