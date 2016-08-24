@@ -74,12 +74,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         gameEngine?.load()
     }
     
-    func random(numberOfPoints count: Int, forSize size: CGSize) -> [CGPoint] {
-        var points: [CGPoint] = []
-        for _ in 0..<count {
-            points.append(CGPoint(x: Double(arc4random_uniform(UInt32(size.width))), y: Double(arc4random_uniform(UInt32(size.height)))))
-        }
-        return points
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        scnView.playing = true
     }
     
     override func shouldAutorotate() -> Bool {
@@ -255,4 +253,17 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         
         return cameraNode
     }()
+    
+    //==========================================================================
+    // MARK: - Junk
+    //==========================================================================
+    
+    func random(numberOfPoints count: Int, forSize size: CGSize) -> [CGPoint] {
+        var points: [CGPoint] = []
+        for _ in 0..<count {
+            points.append(CGPoint(x: Double(arc4random_uniform(UInt32(size.width))), y: Double(arc4random_uniform(UInt32(size.height)))))
+        }
+        return points
+    }
+    
 }
