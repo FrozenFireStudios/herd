@@ -17,7 +17,7 @@ class DogEntity: GKEntity {
         displayComponent.display.position2D = position
         addComponent(displayComponent)
         
-        let movementComponent = MovementComponent(maxSpeed: 1, maxAcceleration: 1, radius: 1)
+        let movementComponent = MovementComponent(maxSpeed: 200, maxAcceleration: 300, radius: 100)
         movementComponent.position = position
         movementComponent.behavior = DogBehavior(target: targetAgent, obstacles: obstacles)
         addComponent(movementComponent)

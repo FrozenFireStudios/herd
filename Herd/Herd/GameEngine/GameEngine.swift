@@ -17,6 +17,7 @@ protocol GameEngineDisplayDelegate: class {
 class GameEngine {
     
     private let map: Map
+    var mapLoaded = false
     
     private var dog: DogEntity!
     private var dogTarget: DogTargetEntity!
@@ -38,6 +39,7 @@ class GameEngine {
     }
     
     func load() {
+        guard !mapLoaded else { return }
         guard let delegate = displayDelegate else { fatalError("Cannot load map without a delegate") }
         
         let penEntity = PenEntity(pen: map.pen, display: delegate.displayableForEntityType(.Pen))
@@ -53,9 +55,11 @@ class GameEngine {
         dog = DogEntity(position: map.dogPosition, display: delegate.displayableForEntityType(.Dog), targetAgent: targetAgent, obstacles: obstacles)
         add(dog)
         
-        let dogAgent = dog!.componentForClass(MovementComponent.self)!
+        let dogAgent = dog.componentForClass(MovementComponent.self)!
         
         map.sheepPositions.forEach { add(SheepEntity(position: $0, display: delegate.displayableForEntityType(.Sheep), dogAgent: dogAgent, obstacles: obstacles)) }
+        
+        mapLoaded = true
     }
     
     func update(deltaTime: NSTimeInterval) {

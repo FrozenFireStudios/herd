@@ -14,7 +14,7 @@ class PenEntity: GKEntity {
     
     init(centerPoint: float2, rotation: Float, size: float2, display: Displayable) {
         
-        obstacle = PenEntity.obstacleFor(centerPoint, rotation: rotation, size: size)
+        obstacle = PenEntity.obstacleFor(centerPoint, rotation: rotation, size: size, thickness: 5)
         
         super.init()
         
@@ -28,7 +28,7 @@ class PenEntity: GKEntity {
         self.init(centerPoint: pen.centerPoint, rotation: pen.rotation, size: pen.size, display: display)
     }
     
-    class func obstacleFor(centerPoint: float2, rotation: Float, size: float2) -> GKPolygonObstacle {
+    class func obstacleFor(centerPoint: float2, rotation: Float, size: float2, thickness: Float) -> GKPolygonObstacle {
         
         let leftX: Float = centerPoint.x - (size.x / 2)
         let rightX: Float = centerPoint.x + (size.x / 2)
@@ -41,10 +41,10 @@ class PenEntity: GKEntity {
             float2(leftX, topY),
             float2(rightX, topY),
             float2(rightX, bottomY),
-            float2(rightX - 1, bottomY),
-            float2(rightX - 1, topY - 1),
-            float2(leftX + 1, topY - 1),
-            float2(leftX + 1, bottomY)
+            float2(rightX - thickness, bottomY),
+            float2(rightX - thickness, topY - thickness),
+            float2(leftX + thickness, topY - thickness),
+            float2(leftX + thickness, bottomY)
         ]
         
         return GKPolygonObstacle(points: UnsafeMutablePointer(points), count: points.count)

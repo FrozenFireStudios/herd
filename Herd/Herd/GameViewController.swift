@@ -54,24 +54,26 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
         view.addGestureRecognizer(pinchGesture)
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
-        
-        
-        
-        // Setup Map
-        let mapSize = view.frame.size.asFloat2
-        
-        let dogPosition = CGPoint(x: view.frame.midX, y: view.frame.midY).asFloat2
-        let sheepPositions = random(numberOfPoints: 10, forSize: view.frame.size).map {$0.asFloat2}
-        
-        let penCenter = CGPoint(x: view.frame.midX, y: 64.0).asFloat2
-        let penSize = CGSize(width: 128, height: 128).asFloat2
-        
-        let pen = Pen(centerPoint: penCenter, rotation: 0.0, size: penSize)
-        let map = Map(size: mapSize, dogPosition: dogPosition, sheepPositions: sheepPositions, pen: pen)
-        
-        gameEngine = GameEngine(map: map, delegate: self)
-        gameEngine?.load()
+        if gameEngine == nil {
+            let mapSize = view.frame.size.asFloat2
+            
+            let dogPosition = CGPoint(x: view.frame.midX, y: view.frame.midY).asFloat2
+            let sheepPositions = random(numberOfPoints: 1, forSize: CGSize(width: 1024, height: 768)).map {$0.asFloat2}
+            
+            let penCenter = CGPoint(x: view.frame.midX, y: 64.0).asFloat2
+            let penSize = CGSize(width: 128, height: 128).asFloat2
+            
+            let pen = Pen(centerPoint: penCenter, rotation: 0.0, size: penSize)
+            let map = Map(size: mapSize, dogPosition: dogPosition, sheepPositions: sheepPositions, pen: pen)
+            
+            gameEngine = GameEngine(map: map, delegate: self)
+            gameEngine?.load()
+        }
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -102,15 +104,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     
     var lastTime: NSTimeInterval = 0.0
     func renderer(renderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
-        defer {
-            lastTime = time
-        }
-        
-        guard lastTime > 0.0 else {
-            return
-        }
-        
-        let delta = time - lastTime
+        let delta = lastTime != 0 ? time - lastTime : 0
+        lastTime = time
         gameEngine?.update(delta)
     }
     
@@ -135,7 +130,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         case .Dog:
             displayable = OurDisplayable(node: SCNNode(geometry: SCNSphere(radius: 0.5)))
         case .Pen:
-            displayable = OurDisplayable(node: SCNNode(geometry: SCNBox(width: 10.0, height: 10.0, length: 10.0, chamferRadius: 0.0)))
+            displayable = OurDisplayable(node: SCNNode(geometry: SCNBox(width: 2.0, height: 0.1, length: 2.0, chamferRadius: 0.0)))
         case .Sheep:
             displayable = OurDisplayable(node: SCNNode(geometry: SCNPyramid(width: 1.0, height: 1.0, length: 1.0)))
         }
@@ -187,7 +182,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     
     func handleTap(gesture: UITapGestureRecognizer) {
         let point = gesture.locationInView(view)
-        addPyramid(atPoint: point)
+        
+        gameEngine?.moveDogToPoint(point.asFloat2)
        
         if Conductor.sharedInstance.bark.isPlaying {
             Conductor.sharedInstance.bark.stop()
@@ -261,7 +257,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     func random(numberOfPoints count: Int, forSize size: CGSize) -> [CGPoint] {
         var points: [CGPoint] = []
         for _ in 0..<count {
-            points.append(CGPoint(x: Double(arc4random_uniform(UInt32(size.width))), y: Double(arc4random_uniform(UInt32(size.height)))))
+            let point = CGPoint(x: Double(arc4random_uniform(UInt32(size.width))), y: Double(arc4random_uniform(UInt32(size.height))))
+            print(point)
+            
+            points.append(point)
         }
         return points
     }

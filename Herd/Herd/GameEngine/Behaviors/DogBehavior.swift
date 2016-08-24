@@ -10,15 +10,18 @@ import GameKit
 
 class DogBehavior: GKBehavior {
     
-    private static let dogSpeed: Float = 10
+    private static let dogSpeed: Float = 200
     
     init(target: GKAgent, obstacles: [GKObstacle]) {
         super.init()
         
         let seekGoal = GKGoal(toSeekAgent: target)
-        let speedGoal = GKGoal(toReachTargetSpeed: DogBehavior.dogSpeed)
-        let obstacleGoal = GKGoal(toAvoidObstacles: obstacles, maxPredictionTime: 1)
+        setWeight(0.8, forGoal: seekGoal)
         
-        [seekGoal, speedGoal, obstacleGoal].forEach { setWeight(1, forGoal: $0) }
+        let speedGoal = GKGoal(toReachTargetSpeed: 0)
+        setWeight(0.1, forGoal: speedGoal)
+//        
+//        let obstacleGoal = GKGoal(toAvoidObstacles: obstacles, maxPredictionTime: 1)
+//        setWeight(1, forGoal: obstacleGoal)
     }
 }
