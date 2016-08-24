@@ -10,7 +10,7 @@ import UIKit
 import QuartzCore
 import SceneKit
 
-class GameViewController: UIViewController {
+class GameViewController: UIViewController, SCNSceneRendererDelegate {
     
     var scnView: SCNView {
         return view as! SCNView
@@ -40,6 +40,7 @@ class GameViewController: UIViewController {
         // Add our scene to the view
         scnView.scene = scene
         scnView.showsStatistics = true
+        scnView.delegate = self
         
         // Setup some Gestures
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
@@ -66,6 +67,17 @@ class GameViewController: UIViewController {
         } else {
             return .All
         }
+    }
+    
+    //==========================================================================
+    // MARK: - Update
+    //==========================================================================
+    
+    var lastTime: NSTimeInterval = 0.0
+    func renderer(renderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
+        let delta = time - lastTime
+        lastTime = time
+        print("delta: \(delta)")
     }
     
     //==========================================================================
