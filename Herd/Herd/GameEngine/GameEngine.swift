@@ -14,10 +14,17 @@ protocol GameEngineDisplayDelegate: class {
     func displayableForEntityType(entityType: DisplayableEntityType) -> Displayable
 }
 
+protocol GameEngineScoreDelegate: class {
+    func scoreChanged(score: Int, totalPossible: Int)
+}
+
 class GameEngine {
     
     private let map: Map
     var mapLoaded = false
+    
+    var score = 0
+    private var previousScore = 0
     
     private var dog: DogEntity!
     private var dogTarget: DogTargetEntity!
@@ -27,15 +34,17 @@ class GameEngine {
     
     private lazy var componentSystems: [GKComponentSystem] = {
         return [
-            GKComponentSystem(componentClass: MovementComponent.self)
+            GKComponentSystem(componentClass: MovementComponent.self),
+            GKComponentSystem(componentClass: ScoringComponent.self)
         ]
     }()
     
     weak var displayDelegate: GameEngineDisplayDelegate?
+    weak var scoreDelegate: GameEngineScoreDelegate?
     
-    init(map: Map, delegate: GameEngineDisplayDelegate) {
+    init(map: Map, displayDelegate: GameEngineDisplayDelegate) {
         self.map = map
-        self.displayDelegate = delegate
+        self.displayDelegate = displayDelegate
     }
     
     func load() {
@@ -45,7 +54,7 @@ class GameEngine {
         let penEntity = PenEntity(pen: map.pen, display: delegate.displayableForEntityType(.Pen))
         add(penEntity)
         
-        let obstacles = map.edgeObstacles + [penEntity.obstacle]
+        let obstacles = map.edgeObstacles + penEntity.obstacles
         
         dogTarget = DogTargetEntity(position: map.dogPosition)
         add(dogTarget)
@@ -57,13 +66,21 @@ class GameEngine {
         
         let dogAgent = dog.componentForClass(MovementComponent.self)!
         
-        map.sheepPositions.forEach { add(SheepEntity(position: $0, display: delegate.displayableForEntityType(.Sheep), dogAgent: dogAgent, obstacles: obstacles)) }
+        map.sheepPositions.forEach { add(SheepEntity(position: $0, display: delegate.displayableForEntityType(.Sheep), dogAgent: dogAgent, pen: penEntity, obstacles: obstacles)) }
         
         mapLoaded = true
     }
     
     func update(deltaTime: NSTimeInterval) {
         componentSystems.forEach { $0.updateWithDeltaTime(deltaTime) }
+        
+        let scoringComponents = entities.flatMap { $0.componentForClass(ScoringComponent.self) }
+        score = scoringComponents.reduce(0) { $0 + $1.score }
+        
+        if score != previousScore {
+            scoreDelegate?.scoreChanged(score, totalPossible: scoringComponents.count)
+            previousScore = score
+        }
         
         entitiesToRemove.forEach { entity in
             componentSystems.forEach { $0.removeComponentWithEntity(entity) }

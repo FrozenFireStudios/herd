@@ -21,6 +21,7 @@
 		2CF959AD1D6D822E00079E5A /* SheepEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF9599C1D6D822E00079E5A /* SheepEntity.swift */; };
 		2CF959AE1D6D822E00079E5A /* GameEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF9599D1D6D822E00079E5A /* GameEngine.swift */; };
 		2CF959AF1D6D822E00079E5A /* Map+Obstacles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF9599E1D6D822E00079E5A /* Map+Obstacles.swift */; };
+		2CF959C41D6DC32D00079E5A /* ScoringComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF959C31D6DC32D00079E5A /* ScoringComponent.swift */; };
 		D0081D3B1D6DA628004275AA /* Sounds in Resources */ = {isa = PBXBuildFile; fileRef = D0081D3A1D6DA628004275AA /* Sounds */; };
 		D01B4A0B1D6D8C8400AA074B /* Conductor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D01B4A0A1D6D8C8400AA074B /* Conductor.swift */; };
 		D0BCC8CF1D6D683000839F65 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D0BCC8CE1D6D682900839F65 /* AudioKit.framework */; };
@@ -81,6 +82,7 @@
 		2CF9599C1D6D822E00079E5A /* SheepEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SheepEntity.swift; sourceTree = "<group>"; };
 		2CF9599D1D6D822E00079E5A /* GameEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameEngine.swift; sourceTree = "<group>"; };
 		2CF9599E1D6D822E00079E5A /* Map+Obstacles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Map+Obstacles.swift"; sourceTree = "<group>"; };
+		2CF959C31D6DC32D00079E5A /* ScoringComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScoringComponent.swift; sourceTree = "<group>"; };
 		D0081D3A1D6DA628004275AA /* Sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sounds; sourceTree = "<group>"; };
 		D01B4A0A1D6D8C8400AA074B /* Conductor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conductor.swift; sourceTree = "<group>"; };
 		D0BCC8C91D6D682800839F65 /* AudioKit For iOS.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "AudioKit For iOS.xcodeproj"; path = "AudioKit/AudioKit/iOS/AudioKit For iOS.xcodeproj"; sourceTree = "<group>"; };
@@ -120,8 +122,8 @@
 		2CF9598B1D6D822E00079E5A /* GameEngine */ = {
 			isa = PBXGroup;
 			children = (
-				EF70FD961D6D986C004FE21E /* DisplayableEntityType.swift */,
 				2CF9599D1D6D822E00079E5A /* GameEngine.swift */,
+				EF70FD961D6D986C004FE21E /* DisplayableEntityType.swift */,
 				2CF9599E1D6D822E00079E5A /* Map+Obstacles.swift */,
 				2CF9598C1D6D822E00079E5A /* Behaviors */,
 				2CF9598F1D6D822E00079E5A /* Components */,
@@ -145,6 +147,7 @@
 			children = (
 				2CF959901D6D822E00079E5A /* DisplayComponent.swift */,
 				2CF959911D6D822E00079E5A /* MovementComponent.swift */,
+				2CF959C31D6DC32D00079E5A /* ScoringComponent.swift */,
 				2CF959921D6D822E00079E5A /* SoundComponent.swift */,
 			);
 			path = Components;
@@ -311,6 +314,7 @@
 				2CF959AE1D6D822E00079E5A /* GameEngine.swift in Sources */,
 				2CF9599F1D6D822E00079E5A /* Map.swift in Sources */,
 				2CF959AB1D6D822E00079E5A /* DogTargetEntity.swift in Sources */,
+				2CF959C41D6DC32D00079E5A /* ScoringComponent.swift in Sources */,
 				EF70FD951D6D9851004FE21E /* OurDisplayable.swift in Sources */,
 				2CF959AA1D6D822E00079E5A /* DogEntity.swift in Sources */,
 				2CF959A51D6D822E00079E5A /* SoundComponent.swift in Sources */,

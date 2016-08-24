@@ -10,11 +10,17 @@ import GameKit
 
 class PenEntity: GKEntity {
     
-    let obstacle: GKPolygonObstacle
+    let obstacles: [GKPolygonObstacle]
+    let centerPoint: float2
+    let rotation: Float
+    let size: float2
     
     init(centerPoint: float2, rotation: Float, size: float2, display: Displayable) {
         
-        obstacle = PenEntity.obstacleFor(centerPoint, rotation: rotation, size: size, thickness: 5)
+        obstacles = PenEntity.obstaclesFor(centerPoint, rotation: rotation, size: size, thickness: 4)
+        self.centerPoint = centerPoint
+        self.rotation = rotation
+        self.size = size
         
         super.init()
         
@@ -28,26 +34,41 @@ class PenEntity: GKEntity {
         self.init(centerPoint: pen.centerPoint, rotation: pen.rotation, size: pen.size, display: display)
     }
     
-    class func obstacleFor(centerPoint: float2, rotation: Float, size: float2, thickness: Float) -> GKPolygonObstacle {
+    class func obstaclesFor(centerPoint: float2, rotation: Float, size: float2, thickness: Float) -> [GKPolygonObstacle] {
         
         let leftX: Float = centerPoint.x - (size.x / 2)
         let rightX: Float = centerPoint.x + (size.x / 2)
         let topY: Float = centerPoint.y + (size.y / 2)
         let bottomY: Float = centerPoint.y - (size.y / 2)
-
-        // TODO: Math to rotate?
-        let points: [float2] = [
+        
+        let leftEdgePoints: [float2] = [
             float2(leftX, bottomY),
             float2(leftX, topY),
-            float2(rightX, topY),
-            float2(rightX, bottomY),
-            float2(rightX - thickness, bottomY),
-            float2(rightX - thickness, topY - thickness),
-            float2(leftX + thickness, topY - thickness),
+            float2(leftX + thickness, topY),
             float2(leftX + thickness, bottomY)
         ]
         
-        return GKPolygonObstacle(points: UnsafeMutablePointer(points), count: points.count)
+        let bottomEdgePoints: [float2] = [
+            float2(leftX, bottomY),
+            float2(leftX, bottomY + thickness),
+            float2(rightX, bottomY + thickness),
+            float2(rightX, bottomY)
+        ]
+        
+        let rightEdgePoints: [float2] = [
+            float2(rightX, topY),
+            float2(rightX, bottomY),
+            float2(rightX - thickness, bottomY),
+            float2(rightX - thickness, topY)
+        ]
+
+        // TODO: Math to rotate?
+        let polygons: [GKPolygonObstacle] = [
+            GKPolygonObstacle(points: UnsafeMutablePointer(leftEdgePoints), count: leftEdgePoints.count),
+            GKPolygonObstacle(points: UnsafeMutablePointer(bottomEdgePoints), count: bottomEdgePoints.count),
+            GKPolygonObstacle(points: UnsafeMutablePointer(rightEdgePoints), count: rightEdgePoints.count)
+        ]
+        
+        return polygons
     }
-    
 }

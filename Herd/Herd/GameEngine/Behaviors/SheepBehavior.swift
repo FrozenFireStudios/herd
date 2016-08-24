@@ -10,7 +10,7 @@ import GameKit
 
 class SheepBehavior: GKBehavior {
     
-    private static let wanderSpeed: Float = 10
+    private static let wanderSpeed: Float = 30
     
     init(dogAgent: GKAgent, obstacles: [GKObstacle]) {
         super.init()
@@ -19,9 +19,9 @@ class SheepBehavior: GKBehavior {
         setWeight(0.3, forGoal: wanderGoal)
         
         let dogGoal = GKGoal(toAvoidAgents: [dogAgent], maxPredictionTime: 2)
-        setWeight(1, forGoal: dogGoal)
+        setWeight(0.8, forGoal: dogGoal)
         
-        let obstacleGoal = GKGoal(toAvoidObstacles: obstacles, maxPredictionTime: 1)
+        let obstacleGoal = GKGoal(toAvoidObstacles: obstacles, maxPredictionTime: 10)
         setWeight(1, forGoal: obstacleGoal)
     }
 }

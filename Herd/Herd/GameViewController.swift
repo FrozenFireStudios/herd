@@ -11,7 +11,7 @@ import QuartzCore
 import SceneKit
 import AudioKit
 
-class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngineDisplayDelegate, OurDisplayableDelegate {
+class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngineDisplayDelegate, GameEngineScoreDelegate, OurDisplayableDelegate {
     
     var scnView: SCNView {
         return view as! SCNView
@@ -48,11 +48,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         scnView.delegate = self
         
         // Setup some Gestures
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        view.addGestureRecognizer(tapGesture)
+        let doubleTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleDoubleTap(_:)))
+        doubleTapGesture.numberOfTapsRequired = 2
+        view.addGestureRecognizer(doubleTapGesture)
         
-//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
-//        view.addGestureRecognizer(panGesture)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        tapGesture.numberOfTapsRequired = 1
+        view.addGestureRecognizer(tapGesture)
         
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
         view.addGestureRecognizer(pinchGesture)
@@ -65,7 +67,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
             let mapSize = view.frame.size.asFloat2
             
             let dogPosition = CGPoint(x: view.frame.midX, y: view.frame.midY).asFloat2
-            let sheepPositions = random(numberOfPoints: 1, forSize: CGSize(width: 1024, height: 768)).map {$0.asFloat2}
+            let sheepPositions = random(numberOfPoints: 3, forSize: view.frame.size).map {$0.asFloat2}
             
             let penCenter = CGPoint(x: view.frame.midX, y: 64.0).asFloat2
             let penSize = CGSize(width: 128, height: 128).asFloat2
@@ -73,7 +75,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
             let pen = Pen(centerPoint: penCenter, rotation: 0.0, size: penSize)
             let map = Map(size: mapSize, dogPosition: dogPosition, sheepPositions: sheepPositions, pen: pen)
             
-            gameEngine = GameEngine(map: map, delegate: self)
+            gameEngine = GameEngine(map: map, displayDelegate: self)
+            gameEngine?.scoreDelegate = self
             gameEngine?.load()
         }
     }
@@ -142,6 +145,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     }
     
     //==========================================================================
+    // MARK: - GameEngineDisplayDelegate
+    //==========================================================================
+    func scoreChanged(score: Int, totalPossible: Int) {
+        print("Score changed to", score, "/", totalPossible)
+    }
+    
+    //==========================================================================
     // MARK: - OurDisplayableDelegate
     //==========================================================================
     
@@ -182,10 +192,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         }
     }
     
-    func handleTap(gesture: UITapGestureRecognizer) {
+    func handleDoubleTap(gesture: UITapGestureRecognizer) {
+//        gameEngine?.bark()
         let point = gesture.locationInView(view)
-        
-        gameEngine?.moveDogToPoint(point.asFloat2)
        
         if Conductor.sharedInstance.barkLoud.isPlaying {
             Conductor.sharedInstance.barkLoud.stop()
@@ -195,6 +204,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         Conductor.sharedInstance.barkLoudPanner.pan = pan
         
         Conductor.sharedInstance.barkLoud.play()
+    }
+    
+    func handleTap(gesture: UITapGestureRecognizer) {
+        let point = gesture.locationInView(view)
+        
+        gameEngine?.moveDogToPoint(point.asFloat2)
     }
     
     var startingPosition: SCNVector3 = SCNVector3Zero

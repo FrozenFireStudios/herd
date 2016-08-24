@@ -15,10 +15,12 @@ extension Map {
         let bottomY = Float(0)
         let topY = size.y
         
-        let leftObstacle = obstacleFor(origin: float2(leftX, bottomY), size: float2(1, size.y))
-        let topObstacle = obstacleFor(origin: float2(leftX, topY - 1), size: float2(size.x, 1))
-        let rightObstacle = obstacleFor(origin: float2(rightX - 1, bottomY), size: float2(1, size.y))
-        let bottomObstacle = obstacleFor(origin: float2(leftX, bottomY), size: float2(size.x, 1))
+        let thickness = Float(4)
+        
+        let leftObstacle = obstacleFor(origin: float2(leftX, bottomY), size: float2(thickness, size.y))
+        let topObstacle = obstacleFor(origin: float2(leftX, topY - thickness), size: float2(size.x, thickness))
+        let rightObstacle = obstacleFor(origin: float2(rightX - thickness, bottomY), size: float2(thickness, size.y))
+        let bottomObstacle = obstacleFor(origin: float2(leftX, bottomY), size: float2(size.x, thickness))
         
         return [leftObstacle, topObstacle, rightObstacle, bottomObstacle]
     }
