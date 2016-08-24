@@ -20,7 +20,7 @@ class PenEntity: GKEntity {
         
         let displayComponent = DisplayComponent(display: PenDisplay(size: size))
         displayComponent.display.position2D = centerPoint
-        displayComponent.display.rotation = rotation
+        displayComponent.display.heading = rotation
         addComponent(displayComponent)
     }
     

@@ -10,7 +10,7 @@ import SpriteKit
 
 class PenDisplay: Displayable {
     var position2D: float2 = float2(0, 0)
-    var rotation: Float = 0
+    var heading: Float = 0
     let size: float2
     
     init(size: float2) {

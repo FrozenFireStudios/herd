@@ -10,5 +10,5 @@ import SpriteKit
 
 class DogDisplay: Displayable {
     var position2D: float2 = float2(0, 0)
-    var rotation: Float = 0
+    var heading: Float = 0
 }

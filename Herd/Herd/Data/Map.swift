@@ -8,7 +8,7 @@
 
 import simd
 
-class Map {
+struct Map {
     
     let size: float2
     
@@ -17,12 +17,12 @@ class Map {
     
     let pen: Pen
     
-    init() {
-        size = float2(0, 0)
-        
-        dogPosition = float2(0, 0)
-        sheepPositions = [float2(0, 0), float2(0, 0)]
-        
-        pen = Pen(centerPoint: float2(0, 0), rotation: 0, size: float2(0, 0))
-    }
+//    init() {
+//        size = float2(0, 0)
+//        
+//        dogPosition = float2(0, 0)
+//        sheepPositions = [float2(0, 0), float2(0, 0)]
+//        
+//        pen = Pen(centerPoint: float2(0, 0), rotation: 0, size: float2(0, 0))
+//    }
 }

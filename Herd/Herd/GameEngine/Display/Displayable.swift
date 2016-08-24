@@ -7,8 +7,13 @@
 //
 
 import simd
+import SceneKit
 
 protocol Displayable {
     var position2D: float2 { get set }
-    var rotation: Float { get set }
+    var heading: Float { get set }
 }
+
+//extension SCNNode: Displayable {
+//    
+//}

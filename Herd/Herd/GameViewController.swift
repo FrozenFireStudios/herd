@@ -21,6 +21,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         view = SCNView()
     }
     
+    var gameEngine: GameEngine?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -52,6 +54,24 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
         view.addGestureRecognizer(pinchGesture)
+        
+        let size = view.frame.size.asFloat2
+        let dogPosition = CGPoint(x: view.frame.midX, y: view.frame.midY).asFloat2
+        let sheepPositions = [CGPoint(x: view.frame.midX, y: view.frame.midY).asFloat2,CGPoint(x: view.frame.midX, y: view.frame.midY).asFloat2,CGPoint(x: view.frame.midX, y: view.frame.midY).asFloat2,CGPoint(x: view.frame.midX, y: view.frame.midY).asFloat2,CGPoint(x: view.frame.midX, y: view.frame.midY).asFloat2]
+        let pen = Pen(centerPoint: CGPointZero.asFloat2, rotation: 0.0, size: CGSize(width: 128, height: 128).asFloat2)
+        
+        let map = Map(size: size, dogPosition: dogPosition, sheepPositions: sheepPositions, pen: pen)
+        
+        gameEngine = GameEngine(map: map)
+        gameEngine?.addDisplayable = { displayable in
+            guard let node = displayable as? SheepDisplay else {
+                return
+            }
+            
+            scene.rootNode.addChildNode(node.node)
+        }
+        
+        gameEngine?.load()
     }
     
     override func shouldAutorotate() -> Bool {
@@ -78,7 +98,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     func renderer(renderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
         let delta = time - lastTime
         lastTime = time
-        print("delta: \(delta)")
+        gameEngine?.update(delta)
     }
     
     //==========================================================================

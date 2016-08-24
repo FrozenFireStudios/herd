@@ -23,13 +23,13 @@ class MovementComponent: GKAgent2D, GKAgentDelegate {
         guard let displayComponent = entity?.componentForClass(DisplayComponent.self) else { return }
         
         position = displayComponent.display.position2D
-        rotation = displayComponent.display.rotation
+        rotation = displayComponent.display.heading
     }
     
     func agentDidUpdate(agent: GKAgent) {
         guard let displayComponent = entity?.componentForClass(DisplayComponent.self) else { return }
         
         displayComponent.display.position2D = position
-        displayComponent.display.rotation = rotation
+        displayComponent.display.heading = rotation
     }
 }
