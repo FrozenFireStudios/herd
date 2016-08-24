@@ -11,6 +11,7 @@ import simd
 struct Map {
     
     let size: float2
+    let time: Float
     
     let dogPosition: float2
     let sheepPositions: [float2]

@@ -58,6 +58,22 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         
 //        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
 //        view.addGestureRecognizer(pinchGesture)
+        
+        // Setup Labels
+        view.addSubview(scoreLabel)
+        view.addSubview(timeLabel)
+        
+        let margin = CGFloat(10)
+        
+        scoreLabel.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: margin).active = true
+        timeLabel.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: margin).active = true
+        
+        scoreLabel.leftAnchor.constraintEqualToAnchor(view.leftAnchor, constant: margin).active = true
+        timeLabel.rightAnchor.constraintEqualToAnchor(view.rightAnchor, constant: -margin).active = true
+        scoreLabel.rightAnchor.constraintEqualToAnchor(timeLabel.leftAnchor, constant: margin).active = true
+        
+        scoreLabel.text = "Score: 0"
+        timeLabel.text = "Time: -"
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -73,11 +89,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
             let penSize = CGSize(width: 128, height: 128).asFloat2
             
             let pen = Pen(centerPoint: penCenter, rotation: 0.0, size: penSize)
-            let map = Map(size: mapSize, dogPosition: dogPosition, sheepPositions: sheepPositions, pen: pen)
+            let map = Map(size: mapSize, time: 60, dogPosition: dogPosition, sheepPositions: sheepPositions, pen: pen)
             
             gameEngine = GameEngine(map: map, displayDelegate: self)
             gameEngine?.scoreDelegate = self
             gameEngine?.load()
+            
+            timeRemaining = NSTimeInterval(map.time)
         }
     }
     
@@ -108,10 +126,25 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     //==========================================================================
     
     var lastTime: NSTimeInterval = 0.0
+    var timeRemaining: NSTimeInterval?
+    
     func renderer(renderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
         let delta = lastTime != 0 ? time - lastTime : 0
         lastTime = time
         gameEngine?.update(delta)
+        
+        if let remaining = timeRemaining {
+            let newTime = remaining - delta
+            timeRemaining = newTime
+            
+            dispatch_async(dispatch_get_main_queue(), { 
+                self.timeLabel.text = "Time: \(Int(newTime))"
+            })
+            
+            if newTime <= 0 {
+                gameOver(gameEngine?.score ?? 0, won: false)
+            }
+        }
     }
     
     //==========================================================================
@@ -148,8 +181,24 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     //==========================================================================
     // MARK: - GameEngineDisplayDelegate
     //==========================================================================
+    
     func scoreChanged(score: Int, totalPossible: Int) {
-        print("Score changed to", score, "/", totalPossible)
+        dispatch_async(dispatch_get_main_queue(), {
+            self.scoreLabel.text = "Score: \(score)"
+        })
+        
+        if score == totalPossible {
+            gameOver(score, won: true)
+        }
+    }
+    
+    //==========================================================================
+    // MARK: - GameEngineDisplayDelegate
+    //==========================================================================
+
+    func gameOver(score: Int, won: Bool) {
+        scnView.playing = false
+        print("Game over with score:", score, "won?", won)
     }
     
     //==========================================================================
@@ -260,6 +309,28 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         cameraNode.eulerAngles = SCNVector3(x: -Float(M_PI_2), y: 0.0, z: 0.0)
         
         return cameraNode
+    }()
+    
+    //==========================================================================
+    // MARK: - Labels
+    //==========================================================================
+    
+    lazy var scoreLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor.yellowColor()
+        label.font = UIFont.systemFontOfSize(36)
+        label.textAlignment = .Left
+        return label
+    }()
+    
+    lazy var timeLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textColor = UIColor.yellowColor()
+        label.font = UIFont.systemFontOfSize(36)
+        label.textAlignment = .Right
+        return label
     }()
     
     //==========================================================================
