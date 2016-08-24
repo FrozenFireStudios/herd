@@ -172,7 +172,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         
         switch entity {
         case .Dog:
-            displayable = OurDisplayable(node: SCNNode(geometry: SCNSphere(radius: 0.5)))
+            let scene = SCNScene(named: "dog.dae")!
+            let node = scene.rootNode.childNodeWithName("Doberman_by_AlexLashko", recursively: true)!
+            displayable = OurDisplayable(node: node)
         case .Pen(let size):
             let size3D = convertSize2Dto3D(size.asCGSize)
             let box = SCNBox(width: size3D.x.asCGFloat, height: 1.0, length: size3D.z.asCGFloat, chamferRadius: 0.0)
@@ -375,9 +377,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     //==========================================================================
     
     func random(numberOfPoints count: Int, forSize size: CGSize) -> [CGPoint] {
+        let inset = 64.0
+        let useSize = CGSize(width: size.width - CGFloat(inset * 2.0), height: size.height - CGFloat(inset * 2.0))
         var points: [CGPoint] = []
         for _ in 0..<count {
-            let point = CGPoint(x: Double(arc4random_uniform(UInt32(size.width))), y: Double(arc4random_uniform(UInt32(size.height))))
+            let point = CGPoint(x: Double(arc4random_uniform(UInt32(useSize.width))) + inset, y: Double(arc4random_uniform(UInt32(useSize.height))) + inset)
             print(point)
             
             points.append(point)
