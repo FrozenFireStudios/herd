@@ -13,10 +13,14 @@ class MainMenuViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.addSubview(startButton)
+        view.backgroundColor = UIColor.greenColor()
         
-        startButton.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
-        startButton.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor).active = true
+        view.addSubview(stack)
+        stack.addArrangedSubview(titleLabel)
+        stack.addArrangedSubview(startButton)
+        
+        stack.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor).active = true
+        stack.centerYAnchor.constraintEqualToAnchor(view.centerYAnchor).active = true
         
         startButton.addTarget(self, action: #selector(buttonTapped), forControlEvents: .TouchUpInside)
     }
@@ -30,12 +34,36 @@ class MainMenuViewController: UIViewController {
     }
     
     //==========================================================================
-    // MARK: - Update
+    // MARK: - Views
     //==========================================================================
+    
+    lazy var stack: UIStackView = {
+        let stack = UIStackView()
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        
+        stack.axis = .Vertical
+        stack.alignment = .Center
+        stack.distribution = .FillProportionally
+        stack.spacing = 80
+        stack.setContentHuggingPriority(1000, forAxis: .Vertical)
+        
+        return stack
+    }()
+    
+    lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = UIColor.whiteColor()
+        label.font = UIFont.systemFontOfSize(108)
+        label.numberOfLines = 0
+        label.textAlignment = .Center
+        label.text = "Game\nTitle"
+        return label
+    }()
     
     lazy var startButton: UIButton = {
         let button = UIButton(type: .RoundedRect)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        button.titleLabel?.font = UIFont.systemFontOfSize(72)
+        button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         button.setTitle("Start", forState: .Normal)
         return button
     }()
