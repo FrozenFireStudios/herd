@@ -11,7 +11,11 @@ import QuartzCore
 import SceneKit
 
 class GameViewController: UIViewController {
-
+    
+    override func loadView() {
+        view = SCNView()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
