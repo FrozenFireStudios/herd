@@ -175,14 +175,12 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
             displayable = OurDisplayable(node: SCNNode(geometry: SCNSphere(radius: 0.5)))
         case .Pen(let size):
             let size3D = convertSize2Dto3D(size.asCGSize)
-            let penBlock = SCNNode(geometry: SCNBox(width: size3D.x.asCGFloat, height: 1.0, length: size3D.z.asCGFloat, chamferRadius: 0.0))
-            let lightNode = SCNNode()
-            lightNode.light = SCNLight()
-            lightNode.light?.color = UIColor.lightGrayColor()
-            lightNode.light?.type = SCNLightTypeAmbient
-            lightNode.position = SCNVector3(x: 0, y: 25, z: 0)
-            penBlock.addChildNode(lightNode)
+            let box = SCNBox(width: size3D.x.asCGFloat, height: 1.0, length: size3D.z.asCGFloat, chamferRadius: 0.0)
+            let material = SCNMaterial()
+            material.diffuse.contents = UIColor.brownColor()
+            box.materials = [material]
             
+            let penBlock = SCNNode(geometry: box)
             displayable = OurDisplayable(node: penBlock)
         case .Sheep:
             let scene = SCNScene(named: "Sheep.dae")!
