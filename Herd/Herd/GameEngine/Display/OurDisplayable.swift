@@ -1,14 +1,14 @@
 //
-//  SheepDisplay.swift
+//  OurDisplayable.swift
 //  Herd
 //
-//  Created by Marcus Smith on 8/23/16.
+//  Created by Marcus Smith on 8/24/16.
 //  Copyright © 2016 Frozen Fire Studios. All rights reserved.
 //
 
 import SceneKit
 
-class SheepDisplay: Displayable {
+class OurDisplayable: Displayable {
     
     lazy var node: SCNNode = {
         let geometry = SCNBox(width: 1.0, height: 1.0, length: 1.0, chamferRadius: 0.0)

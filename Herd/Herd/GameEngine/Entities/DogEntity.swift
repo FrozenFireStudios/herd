@@ -10,10 +10,10 @@ import GameKit
 
 class DogEntity: GKEntity {
     
-    init(position: float2, targetAgent: GKAgent, obstacles: [GKObstacle]) {
+    init(position: float2, display: Displayable, targetAgent: GKAgent, obstacles: [GKObstacle]) {
         super.init()
         
-        let displayComponent = DisplayComponent(display: DogDisplay())
+        let displayComponent = DisplayComponent(display: display)
         displayComponent.display.position2D = position
         addComponent(displayComponent)
         

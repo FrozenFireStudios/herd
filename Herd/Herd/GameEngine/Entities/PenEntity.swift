@@ -12,20 +12,20 @@ class PenEntity: GKEntity {
     
     let obstacle: GKPolygonObstacle
     
-    init(centerPoint: float2, rotation: Float, size: float2) {
+    init(centerPoint: float2, rotation: Float, size: float2, display: Displayable) {
         
         obstacle = PenEntity.obstacleFor(centerPoint, rotation: rotation, size: size)
         
         super.init()
         
-        let displayComponent = DisplayComponent(display: PenDisplay(size: size))
+        let displayComponent = DisplayComponent(display: display)
         displayComponent.display.position2D = centerPoint
         displayComponent.display.heading = rotation
         addComponent(displayComponent)
     }
     
-    convenience init(pen: Pen) {
-        self.init(centerPoint: pen.centerPoint, rotation: pen.rotation, size: pen.size)
+    convenience init(pen: Pen, display: Displayable) {
+        self.init(centerPoint: pen.centerPoint, rotation: pen.rotation, size: pen.size, display: display)
     }
     
     class func obstacleFor(centerPoint: float2, rotation: Float, size: float2) -> GKPolygonObstacle {

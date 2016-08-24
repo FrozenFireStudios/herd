@@ -15,9 +15,6 @@
 		2CF959A41D6D822E00079E5A /* MovementComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF959911D6D822E00079E5A /* MovementComponent.swift */; };
 		2CF959A51D6D822E00079E5A /* SoundComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF959921D6D822E00079E5A /* SoundComponent.swift */; };
 		2CF959A61D6D822E00079E5A /* Displayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF959941D6D822E00079E5A /* Displayable.swift */; };
-		2CF959A71D6D822E00079E5A /* DogDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF959951D6D822E00079E5A /* DogDisplay.swift */; };
-		2CF959A81D6D822E00079E5A /* PenDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF959961D6D822E00079E5A /* PenDisplay.swift */; };
-		2CF959A91D6D822E00079E5A /* SheepDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF959971D6D822E00079E5A /* SheepDisplay.swift */; };
 		2CF959AA1D6D822E00079E5A /* DogEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF959991D6D822E00079E5A /* DogEntity.swift */; };
 		2CF959AB1D6D822E00079E5A /* DogTargetEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF9599A1D6D822E00079E5A /* DogTargetEntity.swift */; };
 		2CF959AC1D6D822E00079E5A /* PenEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF9599B1D6D822E00079E5A /* PenEntity.swift */; };
@@ -36,7 +33,9 @@
 		EF70FD741D6D46B9004FE21E /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70FD731D6D46B9004FE21E /* GameViewController.swift */; };
 		EF70FD791D6D46B9004FE21E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF70FD781D6D46B9004FE21E /* Assets.xcassets */; };
 		EF70FD7C1D6D46B9004FE21E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EF70FD7A1D6D46B9004FE21E /* LaunchScreen.storyboard */; };
-		EF70FD901D6D9808004FE21E /* float2Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70FD8F1D6D9808004FE21E /* float2Help.swift */; };
+		EF70FD931D6D9842004FE21E /* float2Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70FD921D6D9842004FE21E /* float2Help.swift */; };
+		EF70FD951D6D9851004FE21E /* OurDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70FD941D6D9851004FE21E /* OurDisplayable.swift */; };
+		EF70FD971D6D986C004FE21E /* DisplayableEntityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70FD961D6D986C004FE21E /* DisplayableEntityType.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -79,9 +78,6 @@
 		2CF959911D6D822E00079E5A /* MovementComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovementComponent.swift; sourceTree = "<group>"; };
 		2CF959921D6D822E00079E5A /* SoundComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SoundComponent.swift; sourceTree = "<group>"; };
 		2CF959941D6D822E00079E5A /* Displayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Displayable.swift; sourceTree = "<group>"; };
-		2CF959951D6D822E00079E5A /* DogDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DogDisplay.swift; sourceTree = "<group>"; };
-		2CF959961D6D822E00079E5A /* PenDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PenDisplay.swift; sourceTree = "<group>"; };
-		2CF959971D6D822E00079E5A /* SheepDisplay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SheepDisplay.swift; sourceTree = "<group>"; };
 		2CF959991D6D822E00079E5A /* DogEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DogEntity.swift; sourceTree = "<group>"; };
 		2CF9599A1D6D822E00079E5A /* DogTargetEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DogTargetEntity.swift; sourceTree = "<group>"; };
 		2CF9599B1D6D822E00079E5A /* PenEntity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PenEntity.swift; sourceTree = "<group>"; };
@@ -101,7 +97,9 @@
 		EF70FD781D6D46B9004FE21E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF70FD7B1D6D46B9004FE21E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EF70FD7D1D6D46B9004FE21E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EF70FD8F1D6D9808004FE21E /* float2Help.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = float2Help.swift; sourceTree = "<group>"; };
+		EF70FD921D6D9842004FE21E /* float2Help.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = float2Help.swift; sourceTree = "<group>"; };
+		EF70FD941D6D9851004FE21E /* OurDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OurDisplayable.swift; sourceTree = "<group>"; };
+		EF70FD961D6D986C004FE21E /* DisplayableEntityType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayableEntityType.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -128,6 +126,7 @@
 		2CF9598B1D6D822E00079E5A /* GameEngine */ = {
 			isa = PBXGroup;
 			children = (
+				EF70FD961D6D986C004FE21E /* DisplayableEntityType.swift */,
 				2CF9599D1D6D822E00079E5A /* GameEngine.swift */,
 				2CF9599E1D6D822E00079E5A /* Map+Obstacles.swift */,
 				2CF9598C1D6D822E00079E5A /* Behaviors */,
@@ -161,9 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				2CF959941D6D822E00079E5A /* Displayable.swift */,
-				2CF959951D6D822E00079E5A /* DogDisplay.swift */,
-				2CF959961D6D822E00079E5A /* PenDisplay.swift */,
-				2CF959971D6D822E00079E5A /* SheepDisplay.swift */,
+				EF70FD941D6D9851004FE21E /* OurDisplayable.swift */,
 			);
 			path = Display;
 			sourceTree = "<group>";
@@ -209,7 +206,7 @@
 				EF70FD6F1D6D46B9004FE21E /* AppDelegate.swift */,
 				EF70FD711D6D46B9004FE21E /* art.scnassets */,
 				EF70FD731D6D46B9004FE21E /* GameViewController.swift */,
-				EF70FD8F1D6D9808004FE21E /* float2Help.swift */,
+				EF70FD921D6D9842004FE21E /* float2Help.swift */,
 				D01B4A0A1D6D8C8400AA074B /* Conductor.swift */,
 				D01B4A0C1D6D8C9C00AA074B /* baa.wav */,
 				D01B4A0D1D6D8C9C00AA074B /* bleat.wav */,
@@ -320,25 +317,24 @@
 			files = (
 				2CF959A41D6D822E00079E5A /* MovementComponent.swift in Sources */,
 				2CF959A11D6D822E00079E5A /* DogBehavior.swift in Sources */,
-				2CF959A71D6D822E00079E5A /* DogDisplay.swift in Sources */,
 				EF70FD741D6D46B9004FE21E /* GameViewController.swift in Sources */,
 				2CF959AD1D6D822E00079E5A /* SheepEntity.swift in Sources */,
-				2CF959A81D6D822E00079E5A /* PenDisplay.swift in Sources */,
-				2CF959A91D6D822E00079E5A /* SheepDisplay.swift in Sources */,
 				D01B4A0B1D6D8C8400AA074B /* Conductor.swift in Sources */,
 				2CF959AE1D6D822E00079E5A /* GameEngine.swift in Sources */,
 				2CF9599F1D6D822E00079E5A /* Map.swift in Sources */,
 				2CF959AB1D6D822E00079E5A /* DogTargetEntity.swift in Sources */,
+				EF70FD951D6D9851004FE21E /* OurDisplayable.swift in Sources */,
 				2CF959AA1D6D822E00079E5A /* DogEntity.swift in Sources */,
 				2CF959A51D6D822E00079E5A /* SoundComponent.swift in Sources */,
 				2CF959AC1D6D822E00079E5A /* PenEntity.swift in Sources */,
-				EF70FD901D6D9808004FE21E /* float2Help.swift in Sources */,
+				EF70FD931D6D9842004FE21E /* float2Help.swift in Sources */,
 				EF70FD701D6D46B9004FE21E /* AppDelegate.swift in Sources */,
 				2CF959AF1D6D822E00079E5A /* Map+Obstacles.swift in Sources */,
 				2CF959A01D6D822E00079E5A /* Pen.swift in Sources */,
 				2CF959A31D6D822E00079E5A /* DisplayComponent.swift in Sources */,
 				2CF959A61D6D822E00079E5A /* Displayable.swift in Sources */,
 				2CF959A21D6D822E00079E5A /* SheepBehavior.swift in Sources */,
+				EF70FD971D6D986C004FE21E /* DisplayableEntityType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

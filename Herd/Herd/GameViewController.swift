@@ -11,7 +11,7 @@ import QuartzCore
 import SceneKit
 import AudioKit
 
-class GameViewController: UIViewController, SCNSceneRendererDelegate {
+class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngineDisplayDelegate {
     
     var scnView: SCNView {
         return view as! SCNView
@@ -62,15 +62,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         
         let map = Map(size: size, dogPosition: dogPosition, sheepPositions: sheepPositions, pen: pen)
         
-        gameEngine = GameEngine(map: map)
-        gameEngine?.addDisplayable = { displayable in
-            guard let node = displayable as? SheepDisplay else {
-                return
-            }
-            
-            scene.rootNode.addChildNode(node.node)
-        }
-        
+        gameEngine = GameEngine(map: map, delegate: self)
         gameEngine?.load()
     }
     
@@ -99,6 +91,33 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         let delta = time - lastTime
         lastTime = time
         gameEngine?.update(delta)
+    }
+    
+    //==========================================================================
+    // MARK: - GameEngineDisplayDelegate
+    //==========================================================================
+    
+    func addDisplayable(displayable: Displayable) {
+        guard let ourDisplayable = displayable as? OurDisplayable else { return }
+        
+        scnView.scene?.rootNode.addChildNode(ourDisplayable.node)
+    }
+    
+    func removeDisplayable(displayable: Displayable) {
+        guard let ourDisplayable = displayable as? OurDisplayable else { return }
+        
+        ourDisplayable.node.removeFromParentNode()
+    }
+    
+    func displayableForEntityType(entity: DisplayableEntityType) -> Displayable {
+        switch entity {
+        case .Dog:
+            fatalError("Do this")
+        case .Pen:
+            fatalError("This too")
+        case .Sheep:
+            fatalError("And this")
+        }
     }
     
     //==========================================================================

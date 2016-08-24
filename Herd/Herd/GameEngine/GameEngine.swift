@@ -8,6 +8,12 @@
 
 import GameKit
 
+protocol GameEngineDisplayDelegate: class {
+    func addDisplayable(displayable: Displayable)
+    func removeDisplayable(displayable: Displayable)
+    func displayableForEntityType(entityType: DisplayableEntityType) -> Displayable
+}
+
 class GameEngine {
     
     private let map: Map
@@ -24,15 +30,17 @@ class GameEngine {
         ]
     }()
     
-    init(map: Map) {
+    weak var displayDelegate: GameEngineDisplayDelegate?
+    
+    init(map: Map, delegate: GameEngineDisplayDelegate) {
         self.map = map
+        self.displayDelegate = delegate
     }
     
-    var addDisplayable: ((Displayable) -> Void)?
-    var removeDisplayable: ((Displayable) -> Void)?
-    
     func load() {
-        let penEntity = PenEntity(pen: map.pen)
+        guard let delegate = displayDelegate else { fatalError("Cannot load map without a delegate") }
+        
+        let penEntity = PenEntity(pen: map.pen, display: delegate.displayableForEntityType(.Pen))
         add(penEntity)
         
         let obstacles = map.edgeObstacles + [penEntity.obstacle]
@@ -42,12 +50,12 @@ class GameEngine {
         
         let targetAgent = dogTarget.componentForClass(MovementComponent.self)!
         
-        dog = DogEntity(position: map.dogPosition, targetAgent: targetAgent, obstacles: obstacles)
+        dog = DogEntity(position: map.dogPosition, display: delegate.displayableForEntityType(.Dog), targetAgent: targetAgent, obstacles: obstacles)
         add(dog)
         
         let dogAgent = dog!.componentForClass(MovementComponent.self)!
         
-        map.sheepPositions.forEach { add(SheepEntity(position: $0, dogAgent: dogAgent, obstacles: obstacles)) }
+        map.sheepPositions.forEach { add(SheepEntity(position: $0, display: delegate.displayableForEntityType(.Sheep), dogAgent: dogAgent, obstacles: obstacles)) }
     }
     
     func update(deltaTime: NSTimeInterval) {
@@ -73,13 +81,13 @@ class GameEngine {
         componentSystems.forEach { $0.addComponentWithEntity(entity) }
         
         if let displayComponent = entity.componentForClass(DisplayComponent.self) {
-            addDisplayable?(displayComponent.display)
+            displayDelegate?.addDisplayable(displayComponent.display)
         }
     }
     
     private func remove(entity: GKEntity) {
         if let displayComponent = entity.componentForClass(DisplayComponent.self) {
-            removeDisplayable?(displayComponent.display)
+            displayDelegate?.removeDisplayable(displayComponent.display)
         }
         
         entities.remove(entity)
