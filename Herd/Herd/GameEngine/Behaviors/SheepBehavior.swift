@@ -19,7 +19,7 @@ class SheepBehavior: GKBehavior {
         setWeight(0.3, forGoal: wanderGoal)
         
         let dogGoal = GKGoal(toAvoidAgents: [dogAgent], maxPredictionTime: 2)
-        setWeight(0.8, forGoal: dogGoal)
+        setWeight(1, forGoal: dogGoal)
         
         let obstacleGoal = GKGoal(toAvoidObstacles: obstacles, maxPredictionTime: 10)
         setWeight(1, forGoal: obstacleGoal)

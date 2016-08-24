@@ -54,7 +54,7 @@ class GameEngine {
         let penEntity = PenEntity(pen: map.pen, display: delegate.displayableForEntityType(.Pen(size: map.pen.size)))
         add(penEntity)
         
-        let obstacles = map.edgeObstacles + penEntity.obstacles
+        let obstacles = map.edgeObstacles// + penEntity.obstacles
         
         dogTarget = DogTargetEntity(position: map.dogPosition)
         add(dogTarget)

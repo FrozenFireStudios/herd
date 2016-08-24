@@ -29,7 +29,7 @@ class ScoringComponent: GKComponent {
         
         let newScore = isInPen ? 1 : 0
         
-        if score != newScore {
+        if score != newScore && newScore = 1 {
             score = newScore
         }
     }
