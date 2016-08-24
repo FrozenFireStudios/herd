@@ -39,10 +39,10 @@ class OurDisplayable: Displayable {
     
     var heading: Float {
         get {
-            return node.rotation.w
+            return node.eulerAngles.y
         }
         set {
-            node.rotation = SCNVector4(0, 1, 0, newValue)
+            node.eulerAngles = SCNVector3(node.eulerAngles.x, newValue, node.eulerAngles.z)
         }
     }
 }
