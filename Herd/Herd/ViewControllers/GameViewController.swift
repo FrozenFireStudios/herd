@@ -198,7 +198,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
 
     func gameOver(score: Int, won: Bool) {
         scnView.playing = false
-        print("Game over with score:", score, "won?", won)
+        dispatch_async(dispatch_get_main_queue()) { 
+            let gameOverVC = GameOverViewController(score: score, won: won)
+            self.navigationController?.pushViewController(gameOverVC, animated: true)
+        }
     }
     
     //==========================================================================

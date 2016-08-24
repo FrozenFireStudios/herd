@@ -20,7 +20,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.backgroundColor = UIColor.blackColor()
         window?.makeKeyAndVisible()
         
-        window?.rootViewController = GameViewController()
+        let navVC = UINavigationController(rootViewController: MainMenuViewController())
+        navVC.navigationBarHidden = true
+        
+        window?.rootViewController = navVC
         
         return true
     }
