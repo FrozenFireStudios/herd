@@ -51,7 +51,7 @@ class GameEngine {
         guard !mapLoaded else { return }
         guard let delegate = displayDelegate else { fatalError("Cannot load map without a delegate") }
         
-        let penEntity = PenEntity(pen: map.pen, display: delegate.displayableForEntityType(.Pen))
+        let penEntity = PenEntity(pen: map.pen, display: delegate.displayableForEntityType(.Pen(size: map.pen.size)))
         add(penEntity)
         
         let obstacles = map.edgeObstacles + penEntity.obstacles

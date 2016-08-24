@@ -56,8 +56,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         tapGesture.numberOfTapsRequired = 1
         view.addGestureRecognizer(tapGesture)
         
-        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
-        view.addGestureRecognizer(pinchGesture)
+//        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
+//        view.addGestureRecognizer(pinchGesture)
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -134,7 +134,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         switch entity {
         case .Dog:
             displayable = OurDisplayable(node: SCNNode(geometry: SCNSphere(radius: 0.5)))
-        case .Pen:
+        case .Pen(let size):
+            print("The pen should be size:", size)
             displayable = OurDisplayable(node: SCNNode(geometry: SCNBox(width: 2.0, height: 0.1, length: 2.0, chamferRadius: 0.0)))
         case .Sheep:
             displayable = OurDisplayable(node: SCNNode(geometry: SCNPyramid(width: 1.0, height: 1.0, length: 1.0)))

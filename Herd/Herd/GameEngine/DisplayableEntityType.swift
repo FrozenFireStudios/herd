@@ -6,10 +6,10 @@
 //  Copyright © 2016 Frozen Fire Studios. All rights reserved.
 //
 
-import Foundation
+import simd
 
 enum DisplayableEntityType {
     case Dog
     case Sheep
-    case Pen
+    case Pen(size: float2)
 }
