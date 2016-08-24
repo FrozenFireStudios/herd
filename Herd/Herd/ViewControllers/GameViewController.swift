@@ -35,6 +35,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         // Set up the camera
         scene.rootNode.addChildNode(cameraNode)
         
+        let groundScene = SCNScene(named: "ground.dae")!
+        let groundNode = groundScene.rootNode.childNodeWithName("Grid", recursively: true)!
+        groundNode.position = SCNVector3(x: 0, y: -1, z: 0)
+        scene.rootNode.addChildNode(groundNode)
+        
         // This is a really lazy light source. But its kinda sun like...
         let lightNode = SCNNode()
         lightNode.light = SCNLight()
@@ -177,7 +182,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
             displayable = OurDisplayable(node: node)
         case .Pen(let size):
             let size3D = convertSize2Dto3D(size.asCGSize)
-            let box = SCNBox(width: size3D.x.asCGFloat, height: 1.0, length: size3D.z.asCGFloat, chamferRadius: 0.0)
+            let box = SCNBox(width: size3D.x.asCGFloat, height: 0.25, length: size3D.z.asCGFloat, chamferRadius: 0.0)
             let material = SCNMaterial()
             material.diffuse.contents = UIColor.brownColor()
             box.materials = [material]

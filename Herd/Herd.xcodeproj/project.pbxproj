@@ -38,6 +38,7 @@
 		EF70FD971D6D986C004FE21E /* DisplayableEntityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70FD961D6D986C004FE21E /* DisplayableEntityType.swift */; };
 		EF70FDA31D6DC87A004FE21E /* Sheep.dae in Resources */ = {isa = PBXBuildFile; fileRef = EF70FDA21D6DC87A004FE21E /* Sheep.dae */; };
 		EF70FDAB1D6DD888004FE21E /* dog.dae in Resources */ = {isa = PBXBuildFile; fileRef = EF70FDAA1D6DD888004FE21E /* dog.dae */; };
+		EF70FDAD1D6DDD18004FE21E /* ground.dae in Resources */ = {isa = PBXBuildFile; fileRef = EF70FDAC1D6DDD18004FE21E /* ground.dae */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -104,6 +105,7 @@
 		EF70FD961D6D986C004FE21E /* DisplayableEntityType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayableEntityType.swift; sourceTree = "<group>"; };
 		EF70FDA21D6DC87A004FE21E /* Sheep.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Sheep.dae; sourceTree = "<group>"; };
 		EF70FDAA1D6DD888004FE21E /* dog.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = dog.dae; sourceTree = "<group>"; };
+		EF70FDAC1D6DDD18004FE21E /* ground.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = ground.dae; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,6 +223,7 @@
 				EF70FD6F1D6D46B9004FE21E /* AppDelegate.swift */,
 				EF70FDA21D6DC87A004FE21E /* Sheep.dae */,
 				EF70FDAA1D6DD888004FE21E /* dog.dae */,
+				EF70FDAC1D6DDD18004FE21E /* ground.dae */,
 				EF70FD711D6D46B9004FE21E /* art.scnassets */,
 				EF70FD921D6D9842004FE21E /* float2Help.swift */,
 				D01B4A0A1D6D8C8400AA074B /* Conductor.swift */,
@@ -312,6 +315,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF70FDAD1D6DDD18004FE21E /* ground.dae in Resources */,
 				EF70FD721D6D46B9004FE21E /* art.scnassets in Resources */,
 				D0081D3B1D6DA628004275AA /* Sounds in Resources */,
 				EF70FD7C1D6D46B9004FE21E /* LaunchScreen.storyboard in Resources */,
