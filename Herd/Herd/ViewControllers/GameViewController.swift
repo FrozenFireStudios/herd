@@ -86,8 +86,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         timeLabel.text = "Time: -"
     }
     
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
         
         if gameEngine == nil {
             let mapSize = view.frame.size.asFloat2
@@ -107,10 +107,6 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
             
             timeRemaining = NSTimeInterval(map.time)
         }
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
         
         scnView.playing = true
     }
