@@ -4,5 +4,6 @@
         <page name='Bleats'/>
         <page name='Barks'/>
         <page name='MIDI'/>
+        <page name='Pan'/>
     </pages>
 </playground>
