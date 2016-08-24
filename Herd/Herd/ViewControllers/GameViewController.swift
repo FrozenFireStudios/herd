@@ -78,9 +78,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         scoreLabel.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: margin).active = true
         timeLabel.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: margin).active = true
         
-        scoreLabel.leftAnchor.constraintEqualToAnchor(view.leftAnchor, constant: margin).active = true
-        timeLabel.rightAnchor.constraintEqualToAnchor(view.rightAnchor, constant: -margin).active = true
-        scoreLabel.rightAnchor.constraintEqualToAnchor(timeLabel.leftAnchor, constant: margin).active = true
+        scoreLabel.leftAnchor.constraintEqualToAnchor(view.leftAnchor, constant: 2 * margin).active = true
+        timeLabel.rightAnchor.constraintEqualToAnchor(view.rightAnchor, constant: -2 * margin).active = true
+        scoreLabel.rightAnchor.constraintEqualToAnchor(timeLabel.leftAnchor, constant: 2 * margin).active = true
         
         scoreLabel.text = "Score: 0"
         timeLabel.text = "Time: -"
@@ -357,7 +357,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     lazy var scoreLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor.yellowColor()
+        label.textColor = UIColor.whiteColor()
         label.font = UIFont.systemFontOfSize(36)
         label.textAlignment = .Left
         return label
@@ -366,7 +366,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     lazy var timeLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = UIColor.yellowColor()
+        label.textColor = UIColor.whiteColor()
         label.font = UIFont.systemFontOfSize(36)
         label.textAlignment = .Right
         return label

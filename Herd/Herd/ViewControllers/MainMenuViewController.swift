@@ -63,7 +63,7 @@ class MainMenuViewController: UIViewController {
     lazy var startButton: UIButton = {
         let button = UIButton(type: .RoundedRect)
         button.titleLabel?.font = UIFont.systemFontOfSize(72)
-        button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        button.setTitleColor(UIColor.orangeColor(), forState: .Normal)
         button.setTitle("Start", forState: .Normal)
         return button
     }()
