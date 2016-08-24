@@ -53,6 +53,15 @@ public class AKSampler: AKNode {
         }
     }
 
+    public var tuning: Double {
+        get {
+            return Double(samplerUnit.globalTuning)
+        }
+        set {
+            samplerUnit.globalTuning = Float(newValue * 100)
+        }
+    }
+
     /// Load an EXS24 sample data file
     ///
     /// - parameter file: Name of the EXS24 file without the .exs extension
