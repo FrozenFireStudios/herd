@@ -89,7 +89,6 @@ class Conductor {
         
         dyingSheepBooster = AKBooster(dyingSheepEffect, gain: 2)
        
-        // what we need to put in the mixer so things that get play()ed sound right
         let mixer = AKMixer(barkLoudPanner, twoBarkPanner, sheep1, dyingSheepBooster, boo, cheer, dryWetSuccessMixer, backgroundSampler)
         
         AudioKit.output = mixer
@@ -98,24 +97,24 @@ class Conductor {
         backgroundMusic = AKSequencer(filename: "Sounds/smwintro", engine: AudioKit.engine)
     }
     
-    static func playSound(forKey key: SoundKey) {
+    func playSound(forKey key: SoundKey) {
         switch key {
         case .BarkLoudKey:
-            sharedInstance.barkLoud.play()
+            Conductor.sharedInstance.barkLoud.play()
         case .TwoBarkKey:
-            sharedInstance.twoBark.play()
+            Conductor.sharedInstance.twoBark.play()
         case .SheepSoundKey:
-            sharedInstance.sheep1.play()
+            Conductor.sharedInstance.sheep1.play()
         case .DyingSheepKey:
-            sharedInstance.dyingSheep.play()
+            Conductor.sharedInstance.dyingSheep.play()
         case .CrowdBooingKey:
-            sharedInstance.boo.play()
+            Conductor.sharedInstance.boo.play()
         case .CrowdCheeringKey:
-            sharedInstance.cheer.play()
+            Conductor.sharedInstance.cheer.play()
         case .SuccessPingKey:
-            sharedInstance.successPing.play()
+            Conductor.sharedInstance.successPing.play()
         case .BackgroundMusicKey:
-            sharedInstance.backgroundMusic.play()
+            Conductor.sharedInstance.backgroundMusic.play()
         }
     }
 }

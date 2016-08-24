@@ -26,7 +26,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        Conductor.sharedInstance.backgroundMusic.play()
+        Conductor.sharedInstance.playSound(forKey: .BackgroundMusicKey)
         
         view.backgroundColor = UIColor.lightGrayColor()
         
@@ -197,13 +197,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
 //        gameEngine?.bark()
         let point = gesture.locationInView(view)
        
-        if Conductor.sharedInstance.barkLoud.isPlaying {
-            Conductor.sharedInstance.barkLoud.stop()
-        }
+//        if Conductor.sharedInstance.barkLoud.isPlaying {
+//            Conductor.sharedInstance.barkLoud.stop()
+//        }
         
         let pan = Double(((point.x / self.view.frame.width) * 2) - 1)
         Conductor.sharedInstance.barkLoudPanner.pan = pan
-        Conductor.sharedInstance.barkLoud.play()
+        Conductor.sharedInstance.playSound(forKey: .BarkLoudKey)
     }
     
     func handleTap(gesture: UITapGestureRecognizer) {

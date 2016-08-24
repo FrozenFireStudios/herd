@@ -10,13 +10,14 @@ import GameKit
 
 class SoundComponent: GKComponent {
 
-    func makeSound(named: String, angle: Float? = nil) {
+    func makeSound(named: SoundKey, angle: Float? = nil) {
         if let angle = angle {
             print("Make sound named", named, "with angle", angle)
-            Conductor.sharedInstance.soundDict[named]?.play()
         }
         else {
             print("Make sound named", named)
         }
+        
+        Conductor.sharedInstance.playSound(forKey: named)
     }
 }
