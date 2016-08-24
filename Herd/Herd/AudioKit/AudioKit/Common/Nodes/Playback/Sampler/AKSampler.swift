@@ -55,10 +55,10 @@ public class AKSampler: AKNode {
 
     public var tuning: Double {
         get {
-            return Double(samplerUnit.globalTuning)
+            return Double(samplerUnit.globalTuning / 100.0)
         }
         set {
-            samplerUnit.globalTuning = Float(newValue * 100)
+            samplerUnit.globalTuning = Float(newValue * 100.0)
         }
     }
 
