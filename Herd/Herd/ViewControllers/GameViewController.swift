@@ -54,7 +54,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         
         // Add our scene to the view
         scnView.scene = scene
-        scnView.showsStatistics = true
+        //scnView.showsStatistics = true
         scnView.delegate = self
         
         // Setup some Gestures
@@ -381,7 +381,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     //==========================================================================
     
     func random(numberOfPoints count: Int, forSize size: CGSize) -> [CGPoint] {
-        let inset = 64.0
+        let inset = 80.0
         let useSize = CGSize(width: size.width - CGFloat(inset * 2.0), height: size.height - CGFloat(inset * 2.0))
         var points: [CGPoint] = []
         for _ in 0..<count {

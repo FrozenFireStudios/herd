@@ -16,6 +16,7 @@ class MainMenuViewController: UIViewController {
         view.backgroundColor = UIColor.greenColor()
         
         view.addSubview(stack)
+        stack.addArrangedSubview(imageView)
         stack.addArrangedSubview(titleLabel)
         stack.addArrangedSubview(startButton)
         
@@ -50,13 +51,18 @@ class MainMenuViewController: UIViewController {
         return stack
     }()
     
+    lazy var imageView: UIImageView = {
+        let imageView = UIImageView(image: UIImage(named: "farmer"))
+        return imageView
+    }()
+    
     lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.whiteColor()
         label.font = UIFont.systemFontOfSize(108)
         label.numberOfLines = 0
         label.textAlignment = .Center
-        label.text = "Game\nTitle"
+        label.text = "Counting\nSheep"
         return label
     }()
     
