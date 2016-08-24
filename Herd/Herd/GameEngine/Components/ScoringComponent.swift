@@ -11,7 +11,14 @@ import GameKit
 class ScoringComponent: GKComponent {
     
     private let pen: PenEntity
-    private(set) var score: Int = 0
+    private(set) var score: Int = 0 {
+        didSet {
+            if let movement = entity?.componentForClass(MovementComponent.self) where isInPen {
+                movement.behavior = nil
+                movement.maxSpeed = 0
+            }
+        }
+    }
     
     init(pen: PenEntity) {
         self.pen = pen
@@ -20,7 +27,11 @@ class ScoringComponent: GKComponent {
     override func updateWithDeltaTime(seconds: NSTimeInterval) {
         super.updateWithDeltaTime(seconds)
         
-        score = isInPen ? 1 : 0
+        let newScore = isInPen ? 1 : 0
+        
+        if score != newScore {
+            score = newScore
+        }
     }
     
     private var isInPen: Bool {

@@ -17,7 +17,7 @@ class SheepEntity: GKEntity {
         displayComponent.display.position2D = position
         addComponent(displayComponent)
         
-        let movementComponent = MovementComponent(maxSpeed: 50, maxAcceleration: 50, radius: 12)
+        let movementComponent = MovementComponent(maxSpeed: 50, maxAcceleration: 50, radius: 30)
         movementComponent.behavior = SheepBehavior(dogAgent: dogAgent, obstacles: obstacles)
         addComponent(movementComponent)
         
