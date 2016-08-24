@@ -46,9 +46,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         scnView.delegate = self
         
         // Setup some Gestures
-//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-//        view.addGestureRecognizer(tapGesture)
-//        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        view.addGestureRecognizer(tapGesture)
+        
 //        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
 //        view.addGestureRecognizer(panGesture)
         
@@ -102,16 +102,17 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     // MARK: - Update
     //==========================================================================
     
-    var lastTime: NSTimeInterval?
+    var lastTime: NSTimeInterval = 0.0
     func renderer(renderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
-        guard let lastTime = lastTime else {
-            self.lastTime = time
-            gameEngine?.update(0.0)
+        defer {
+            lastTime = time
+        }
+        
+        guard lastTime > 0.0 else {
             return
         }
         
         let delta = time - lastTime
-        self.lastTime = time
         gameEngine?.update(delta)
     }
     
@@ -136,7 +137,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         case .Dog:
             displayable = OurDisplayable(node: SCNNode(geometry: SCNSphere(radius: 0.5)))
         case .Pen:
-            displayable = OurDisplayable(node: SCNNode(geometry: SCNBox(width: 6.0, height: 6.0, length: 6.0, chamferRadius: 0.0)))
+            displayable = OurDisplayable(node: SCNNode(geometry: SCNBox(width: 10.0, height: 10.0, length: 10.0, chamferRadius: 0.0)))
         case .Sheep:
             displayable = OurDisplayable(node: SCNNode(geometry: SCNPyramid(width: 1.0, height: 1.0, length: 1.0)))
         }
