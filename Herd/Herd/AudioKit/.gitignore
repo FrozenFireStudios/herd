@@ -1,0 +1,24 @@
+# xcode noise
+build/
+*.pyc
+*~.nib/
+*.pbxuser
+*.perspective
+*.perspectivev3
+*.xcuserstate
+*.xccheckout
+*.xctimeline
+project.xcworkspace/
+xcuserdata/
+xcodebuild
+
+# osx noise
+.DS_Store
+profile
+
+junk/
+docs/
+
+output/
+dev/
+
