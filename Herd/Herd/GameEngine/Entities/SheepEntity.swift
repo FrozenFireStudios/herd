@@ -21,7 +21,7 @@ class SheepEntity: GKEntity {
         movementComponent.behavior = SheepBehavior(dogAgent: dogAgent, obstacles: obstacles)
         addComponent(movementComponent)
         
-        let soundComponent = SoundComponent(soundName: "sheep")
+        let soundComponent = SoundComponent()
         addComponent(soundComponent)
     }
 }
