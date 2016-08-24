@@ -8,12 +8,20 @@
 
 import SceneKit
 
+protocol OurDisplayableDelegate: class {
+    func convert2Dto3D(point: CGPoint) -> SCNVector3
+    func convert3Dto2D(point: SCNVector3) -> CGPoint
+}
+
 class OurDisplayable: Displayable {
     
-    lazy var node: SCNNode = {
-        let geometry = SCNBox(width: 1.0, height: 1.0, length: 1.0, chamferRadius: 0.0)
-        return SCNNode(geometry: geometry)
-    }()
+    var node: SCNNode
+    
+    init(node: SCNNode) {
+        self.node = node
+    }
+    
+    weak var delegate: OurDisplayableDelegate?
     
     //==========================================================================
     // MARK: - Displayable
@@ -21,11 +29,11 @@ class OurDisplayable: Displayable {
     
     var position2D: float2 {
         get {
-            return float2(x: node.position.x, y: node.position.y)
+            let position = delegate?.convert3Dto2D(node.position) ?? .zero
+            return position.asFloat2
         }
         set {
-            node.position.x = newValue.x
-            node.position.y = newValue.y
+            node.position = delegate?.convert2Dto3D(newValue.asCGPoint) ?? SCNVector3Zero
         }
     }
     

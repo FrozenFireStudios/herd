@@ -15,6 +15,12 @@ extension CGPoint {
     }
 }
 
+extension float2 {
+    var asCGPoint: CGPoint {
+        return CGPoint(x: Double(x), y: Double(y))
+    }
+}
+
 extension CGFloat {
     var asFloat: Float {
         return Float(self)

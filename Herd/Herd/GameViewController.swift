@@ -11,7 +11,7 @@ import QuartzCore
 import SceneKit
 import AudioKit
 
-class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngineDisplayDelegate {
+class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngineDisplayDelegate, OurDisplayableDelegate {
     
     var scnView: SCNView {
         return view as! SCNView
@@ -46,24 +46,40 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         scnView.delegate = self
         
         // Setup some Gestures
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
-        view.addGestureRecognizer(tapGesture)
-        
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
-        view.addGestureRecognizer(panGesture)
+//        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+//        view.addGestureRecognizer(tapGesture)
+//        
+//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+//        view.addGestureRecognizer(panGesture)
         
         let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
         view.addGestureRecognizer(pinchGesture)
         
-        let size = view.frame.size.asFloat2
-        let dogPosition = CGPoint(x: view.frame.midX, y: view.frame.midY).asFloat2
-        let sheepPositions = [CGPoint(x: view.frame.midX, y: view.frame.midY).asFloat2,CGPoint(x: view.frame.midX, y: view.frame.midY).asFloat2,CGPoint(x: view.frame.midX, y: view.frame.midY).asFloat2,CGPoint(x: view.frame.midX, y: view.frame.midY).asFloat2,CGPoint(x: view.frame.midX, y: view.frame.midY).asFloat2]
-        let pen = Pen(centerPoint: CGPointZero.asFloat2, rotation: 0.0, size: CGSize(width: 128, height: 128).asFloat2)
         
-        let map = Map(size: size, dogPosition: dogPosition, sheepPositions: sheepPositions, pen: pen)
+        
+        
+        // Setup Map
+        let mapSize = view.frame.size.asFloat2
+        
+        let dogPosition = CGPoint(x: view.frame.midX, y: view.frame.midY).asFloat2
+        let sheepPositions = random(numberOfPoints: 10, forSize: view.frame.size).map {$0.asFloat2}
+        
+        let penCenter = CGPoint(x: view.frame.midX, y: 64.0).asFloat2
+        let penSize = CGSize(width: 128, height: 128).asFloat2
+        
+        let pen = Pen(centerPoint: penCenter, rotation: 0.0, size: penSize)
+        let map = Map(size: mapSize, dogPosition: dogPosition, sheepPositions: sheepPositions, pen: pen)
         
         gameEngine = GameEngine(map: map, delegate: self)
         gameEngine?.load()
+    }
+    
+    func random(numberOfPoints count: Int, forSize size: CGSize) -> [CGPoint] {
+        var points: [CGPoint] = []
+        for _ in 0..<count {
+            points.append(CGPoint(x: Double(arc4random_uniform(UInt32(size.width))), y: Double(arc4random_uniform(UInt32(size.height)))))
+        }
+        return points
     }
     
     override func shouldAutorotate() -> Bool {
@@ -86,10 +102,16 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     // MARK: - Update
     //==========================================================================
     
-    var lastTime: NSTimeInterval = 0.0
+    var lastTime: NSTimeInterval?
     func renderer(renderer: SCNSceneRenderer, updateAtTime time: NSTimeInterval) {
+        guard let lastTime = lastTime else {
+            self.lastTime = time
+            gameEngine?.update(0.0)
+            return
+        }
+        
         let delta = time - lastTime
-        lastTime = time
+        self.lastTime = time
         gameEngine?.update(delta)
     }
     
@@ -99,25 +121,51 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     
     func addDisplayable(displayable: Displayable) {
         guard let ourDisplayable = displayable as? OurDisplayable else { return }
-        
         scnView.scene?.rootNode.addChildNode(ourDisplayable.node)
     }
     
     func removeDisplayable(displayable: Displayable) {
-        guard let ourDisplayable = displayable as? OurDisplayable else { return }
-        
-        ourDisplayable.node.removeFromParentNode()
+        guard let displayable = displayable as? OurDisplayable else { return }
+        displayable.node.removeFromParentNode()
     }
     
     func displayableForEntityType(entity: DisplayableEntityType) -> Displayable {
+        let displayable: OurDisplayable
+        
         switch entity {
         case .Dog:
-            fatalError("Do this")
+            displayable = OurDisplayable(node: SCNNode(geometry: SCNSphere(radius: 0.5)))
         case .Pen:
-            fatalError("This too")
+            displayable = OurDisplayable(node: SCNNode(geometry: SCNBox(width: 6.0, height: 6.0, length: 6.0, chamferRadius: 0.0)))
         case .Sheep:
-            fatalError("And this")
+            displayable = OurDisplayable(node: SCNNode(geometry: SCNPyramid(width: 1.0, height: 1.0, length: 1.0)))
         }
+        
+        displayable.delegate = self
+        return displayable
+    }
+    
+    //==========================================================================
+    // MARK: - OurDisplayableDelegate
+    //==========================================================================
+    
+    func convert3Dto2D(point: SCNVector3) -> CGPoint {
+        let projectedPoint = scnView.projectPoint(point)
+        
+        return CGPoint(x: Double(projectedPoint.x), y: Double(projectedPoint.y))
+    }
+    
+    func convert2Dto3D(point: CGPoint) -> SCNVector3 {
+        // The zeropoint for the z isn't actually even, so grab our origin.
+        let projectedOrigin = scnView.projectPoint(SCNVector3Zero)
+        
+        // Convert to 3D with our x/y plus the origin z
+        let touchPoint = SCNVector3(x: Float(point.x), y: Float(point.y), z: projectedOrigin.z)
+        
+        // unproject it to 3D space
+        let convertedPoint = scnView.unprojectPoint(touchPoint)
+        
+        return convertedPoint
     }
     
     //==========================================================================
@@ -206,21 +254,4 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         
         return cameraNode
     }()
-    
-    //==========================================================================
-    // MARK: - Coordinates
-    //==========================================================================
-    
-    func convert2Dto3D(point: CGPoint) -> SCNVector3 {
-        // The zeropoint for the z isn't actually even, so grab our origin.
-        let projectedOrigin = scnView.projectPoint(SCNVector3Zero)
-        
-        // Convert to 3D with our x/y plus the origin z
-        let touchPoint = SCNVector3(x: Float(point.x), y: Float(point.y), z: projectedOrigin.z)
-        
-        // unproject it to 3D space
-        let convertedPoint = scnView.unprojectPoint(touchPoint)
-        
-        return convertedPoint
-    }
 }
