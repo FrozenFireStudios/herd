@@ -36,6 +36,7 @@
 		EF70FD931D6D9842004FE21E /* float2Help.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70FD921D6D9842004FE21E /* float2Help.swift */; };
 		EF70FD951D6D9851004FE21E /* OurDisplayable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70FD941D6D9851004FE21E /* OurDisplayable.swift */; };
 		EF70FD971D6D986C004FE21E /* DisplayableEntityType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF70FD961D6D986C004FE21E /* DisplayableEntityType.swift */; };
+		EF70FDA31D6DC87A004FE21E /* Sheep.dae in Resources */ = {isa = PBXBuildFile; fileRef = EF70FDA21D6DC87A004FE21E /* Sheep.dae */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -100,6 +101,7 @@
 		EF70FD921D6D9842004FE21E /* float2Help.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = float2Help.swift; sourceTree = "<group>"; };
 		EF70FD941D6D9851004FE21E /* OurDisplayable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OurDisplayable.swift; sourceTree = "<group>"; };
 		EF70FD961D6D986C004FE21E /* DisplayableEntityType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisplayableEntityType.swift; sourceTree = "<group>"; };
+		EF70FDA21D6DC87A004FE21E /* Sheep.dae */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml.dae; path = Sheep.dae; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -215,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				EF70FD6F1D6D46B9004FE21E /* AppDelegate.swift */,
+				EF70FDA21D6DC87A004FE21E /* Sheep.dae */,
 				EF70FD711D6D46B9004FE21E /* art.scnassets */,
 				EF70FD921D6D9842004FE21E /* float2Help.swift */,
 				D01B4A0A1D6D8C8400AA074B /* Conductor.swift */,
@@ -310,6 +313,7 @@
 				D0081D3B1D6DA628004275AA /* Sounds in Resources */,
 				EF70FD7C1D6D46B9004FE21E /* LaunchScreen.storyboard in Resources */,
 				EF70FD791D6D46B9004FE21E /* Assets.xcassets in Resources */,
+				EF70FDA31D6DC87A004FE21E /* Sheep.dae in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

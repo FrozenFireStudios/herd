@@ -28,7 +28,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         
         Conductor.sharedInstance.playSound(forKey: .BackgroundMusicKey)
         
-        view.backgroundColor = UIColor.lightGrayColor()
+        view.backgroundColor = UIColor(red: 0.1, green: 1.0, blue: 0.1, alpha: 1.0)
         
         let scene = SCNScene()
         
@@ -41,6 +41,13 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         lightNode.light?.type = SCNLightTypeOmni
         lightNode.position = SCNVector3(x: 0, y: 25, z: 0)
         scene.rootNode.addChildNode(lightNode)
+        
+        let ambient = SCNNode()
+        ambient.light = SCNLight()
+        ambient.light?.type = SCNLightTypeAmbient
+        ambient.light?.color = UIColor.darkGrayColor()
+        ambient.position = SCNVector3(x: 0, y: 25, z: 0)
+        scene.rootNode.addChildNode(ambient)
         
         // Add our scene to the view
         scnView.scene = scene
@@ -56,6 +63,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         tapGesture.numberOfTapsRequired = 1
         view.addGestureRecognizer(tapGesture)
         
+//        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+//        view.addGestureRecognizer(panGesture)
+//
 //        let pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(handlePinch(_:)))
 //        view.addGestureRecognizer(pinchGesture)
         
@@ -86,7 +96,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
             let sheepPositions = random(numberOfPoints: 3, forSize: view.frame.size).map {$0.asFloat2}
             
             let penCenter = CGPoint(x: view.frame.midX, y: 64.0).asFloat2
-            let penSize = CGSize(width: 128, height: 128).asFloat2
+            let penSize = CGSize(width: 128.0, height: 128.0).asFloat2
             
             let pen = Pen(centerPoint: penCenter, rotation: 0.0, size: penSize)
             let map = Map(size: mapSize, time: 60, dogPosition: dogPosition, sheepPositions: sheepPositions, pen: pen)
@@ -168,10 +178,20 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         case .Dog:
             displayable = OurDisplayable(node: SCNNode(geometry: SCNSphere(radius: 0.5)))
         case .Pen(let size):
-            print("The pen should be size:", size)
-            displayable = OurDisplayable(node: SCNNode(geometry: SCNBox(width: 2.0, height: 0.1, length: 2.0, chamferRadius: 0.0)))
+            let size3D = convertSize2Dto3D(size.asCGSize)
+            let penBlock = SCNNode(geometry: SCNBox(width: size3D.x.asCGFloat, height: 1.0, length: size3D.z.asCGFloat, chamferRadius: 0.0))
+            let lightNode = SCNNode()
+            lightNode.light = SCNLight()
+            lightNode.light?.color = UIColor.lightGrayColor()
+            lightNode.light?.type = SCNLightTypeAmbient
+            lightNode.position = SCNVector3(x: 0, y: 25, z: 0)
+            penBlock.addChildNode(lightNode)
+            
+            displayable = OurDisplayable(node: penBlock)
         case .Sheep:
-            displayable = OurDisplayable(node: SCNNode(geometry: SCNPyramid(width: 1.0, height: 1.0, length: 1.0)))
+            let scene = SCNScene(named: "Sheep.dae")!
+            let node = scene.rootNode.childNodeWithName("sheep", recursively: true)!
+            displayable = OurDisplayable(node: node)
         }
         
         displayable.delegate = self
@@ -208,13 +228,26 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     // MARK: - OurDisplayableDelegate
     //==========================================================================
     
-    func convert3Dto2D(point: SCNVector3) -> CGPoint {
+    func convertSize2Dto3D(size: CGSize) -> SCNVector3 {
+        let origin = convertPoint2Dto3D(CGPointZero)
+        let maxPoint = convertPoint2Dto3D(CGPoint(x: view.frame.size.width, y: view.frame.size.height))
+        
+        let width3D = abs(origin.x) + abs(maxPoint.x)
+        let height3D = abs(origin.z) + abs(maxPoint.z)
+        
+        let widthRatio = Float(size.width / view.frame.size.width)
+        let heightRatio = Float(size.height / view.frame.size.height)
+        
+        return SCNVector3(x: width3D * widthRatio, y: 0.0, z: height3D * heightRatio)
+    }
+    
+    func convertPoint3Dto2D(point: SCNVector3) -> CGPoint {
         let projectedPoint = scnView.projectPoint(point)
         
         return CGPoint(x: Double(projectedPoint.x), y: Double(projectedPoint.y))
     }
     
-    func convert2Dto3D(point: CGPoint) -> SCNVector3 {
+    func convertPoint2Dto3D(point: CGPoint) -> SCNVector3 {
         // The zeropoint for the z isn't actually even, so grab our origin.
         let projectedOrigin = scnView.projectPoint(SCNVector3Zero)
         
@@ -241,7 +274,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         }
         
         if gesture.state == .Changed {
-            touchedNode?.position = convert2Dto3D(point)
+            touchedNode?.position = convertPoint2Dto3D(point)
         }
     }
     
@@ -284,7 +317,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         let geometry = SCNBox(width: 2.0, height: 2.0, length: 2.0, chamferRadius: 0.0)
         
         let node = SCNNode(geometry: geometry)
-        node.position = convert2Dto3D(point)
+        node.position = convertPoint2Dto3D(point)
         scnView.scene?.rootNode.addChildNode(node)
         
         node.runAction(SCNAction.repeatActionForever(SCNAction.rotateByX(0, y: 2, z: 0, duration: 1)))
@@ -294,10 +327,17 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         let geometry = SCNPyramid(width: 2.0, height: 2.0, length: 2.0)
         
         let node = SCNNode(geometry: geometry)
-        node.position = convert2Dto3D(point)
+        node.position = convertPoint2Dto3D(point)
         scnView.scene?.rootNode.addChildNode(node)
         
         node.runAction(SCNAction.repeatActionForever(SCNAction.rotateByX(0, y: 2, z: 0, duration: 1)))
+    }
+    
+    func createSheep(atPoint point: CGPoint) {
+        let scene = SCNScene(named: "Sheep.dae")
+        if let node = scene?.rootNode.childNodeWithName("sheep", recursively: true) {
+            node.position = convertPoint2Dto3D(point)
+        }
     }
     
     //==========================================================================

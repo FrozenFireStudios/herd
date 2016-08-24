@@ -19,6 +19,10 @@ extension float2 {
     var asCGPoint: CGPoint {
         return CGPoint(x: Double(x), y: Double(y))
     }
+    
+    var asCGSize: CGSize {
+        return CGSize(width: Double(x), height: Double(y))
+    }
 }
 
 extension CGFloat {
@@ -30,5 +34,11 @@ extension CGFloat {
 extension CGSize {
     var asFloat2: float2 {
         return float2(width.asFloat, height.asFloat)
+    }
+}
+
+extension Float {
+    var asCGFloat: CGFloat {
+        return CGFloat(self)
     }
 }

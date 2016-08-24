@@ -9,8 +9,8 @@
 import SceneKit
 
 protocol OurDisplayableDelegate: class {
-    func convert2Dto3D(point: CGPoint) -> SCNVector3
-    func convert3Dto2D(point: SCNVector3) -> CGPoint
+    func convertPoint2Dto3D(point: CGPoint) -> SCNVector3
+    func convertPoint3Dto2D(point: SCNVector3) -> CGPoint
 }
 
 class OurDisplayable: Displayable {
@@ -29,11 +29,11 @@ class OurDisplayable: Displayable {
     
     var position2D: float2 {
         get {
-            let position = delegate?.convert3Dto2D(node.position) ?? .zero
+            let position = delegate?.convertPoint3Dto2D(node.position) ?? .zero
             return position.asFloat2
         }
         set {
-            node.position = delegate?.convert2Dto3D(newValue.asCGPoint) ?? SCNVector3Zero
+            node.position = delegate?.convertPoint2Dto3D(newValue.asCGPoint) ?? SCNVector3Zero
         }
     }
     
