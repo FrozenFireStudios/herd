@@ -24,7 +24,7 @@ class GameOverViewController: UIViewController {
         
         Conductor.sharedInstance.backgroundMusic.stop()
         
-        view.backgroundColor = .whiteColor()
+        view.backgroundColor = UIColor.greenColor()
         
         view.addSubview(stackView)
         stackView.addArrangedSubview(wonLabel)
@@ -78,28 +78,33 @@ class GameOverViewController: UIViewController {
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.axis = .Vertical
         stack.alignment = .Center
-        
+        stack.spacing = 80.0
+        stack.setContentHuggingPriority(1000, forAxis: .Vertical)
         return stack
     }()
     
     lazy var scoreLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFontOfSize(72)
+        label.textColor = .whiteColor()
         return label
     }()
     
     lazy var wonLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = UIFont.systemFontOfSize(72)
+        label.textColor = .whiteColor()
         return label
     }()
     
     lazy var finishButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .blueColor()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("Finish", forState: .Normal)
+        button.setTitle("Main Menu", forState: .Normal)
         button.setTitleColor(.whiteColor(), forState: .Normal)
+        button.titleLabel?.font = UIFont.systemFontOfSize(72.0)
         button.addTarget(self, action: #selector(GameOverViewController.finish), forControlEvents: .TouchUpInside)
         return button
     }()
