@@ -26,6 +26,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        Conductor.sharedInstance.backgroundMusic.play()
+        
         view.backgroundColor = UIColor.lightGrayColor()
         
         let scene = SCNScene()
@@ -185,14 +187,14 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
         
         gameEngine?.moveDogToPoint(point.asFloat2)
        
-        if Conductor.sharedInstance.bark.isPlaying {
-            Conductor.sharedInstance.bark.stop()
+        if Conductor.sharedInstance.barkLoud.isPlaying {
+            Conductor.sharedInstance.barkLoud.stop()
         }
         
         let pan = Double(((point.x / self.view.frame.width) * 2) - 1)
-        Conductor.sharedInstance.barkPanner.pan = pan
+        Conductor.sharedInstance.barkLoudPanner.pan = pan
         
-        Conductor.sharedInstance.bark.play()
+        Conductor.sharedInstance.barkLoud.play()
     }
     
     var startingPosition: SCNVector3 = SCNVector3Zero

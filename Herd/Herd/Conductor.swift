@@ -11,33 +11,70 @@ import AudioKit
 class Conductor {
     static let sharedInstance = Conductor()
     
-    var bark: AKAudioPlayer
-    var barkPanner: AKPanner
-    var sheep1: AKAudioPlayer
     var backgroundMusic: AKSequencer
     var backgroundSampler = AKSampler()
     
+    var barkLoud: AKAudioPlayer
+    var barkLoudPanner: AKPanner
+    var twoBark: AKAudioPlayer
+    var twoBarkPanner: AKPanner
+    
+    var sheep1: AKAudioPlayer
+    
+    var boo: AKAudioPlayer
+    var cheer: AKAudioPlayer
+    var successPing: AKAudioPlayer
+    
+    var dyingSheep: AKAudioPlayer
+    var dyingSheepEffect: AKOperationEffect
+    var dyingSheepBooster: AKBooster
+    
     init() {
-        let barkFile = try! AKAudioFile(readFileName: "dogbark2.wav")
-        bark = try! AKAudioPlayer(file: barkFile)
+        let barkLoudFile = try! AKAudioFile(readFileName: "Sounds/dogbarkLoud.wav")
+        barkLoud = try! AKAudioPlayer(file: barkLoudFile)
         
-        barkPanner = AKPanner(bark)
-        barkPanner.pan = 0.0
+        barkLoudPanner = AKPanner(barkLoud)
+        barkLoudPanner.pan = 0.0
+        
+        let twoBarkFile = try! AKAudioFile(readFileName: "Sounds/dogbarks.wav")
+        twoBark = try! AKAudioPlayer(file: twoBarkFile)
+        
+        twoBarkPanner = AKPanner(twoBark)
+        twoBarkPanner.pan = 0.0
        
-        
-        let sheepFile = try! AKAudioFile(readFileName: "bleat.wav")
+        let sheepFile = try! AKAudioFile(readFileName: "Sounds/bleat.wav")
         sheep1 = try! AKAudioPlayer(file: sheepFile)
         
-        backgroundSampler.loadWav("baa")
+        backgroundSampler.loadWav("Sounds/baa")
         backgroundSampler.tuning = -12
+       
+        let booFile = try! AKAudioFile(readFileName: "Sounds/crowdBoo1.wav")
+        boo = try! AKAudioPlayer(file: booFile)
         
-        let mixer = AKMixer(barkPanner, sheep1, backgroundSampler)
+        let cheerFile = try! AKAudioFile(readFileName: "Sounds/crowdCheerToSolo.wav")
+        cheer = try! AKAudioPlayer(file: cheerFile)
+        
+        let successFile = try! AKAudioFile(readFileName: "Sounds/shorterGlassPing.wav")
+        successPing = try! AKAudioPlayer(file: successFile)
+      
+        let dyingSheepFile = try! AKAudioFile(readFileName: "Sounds/SheepBleat.wav")
+        dyingSheep = try! AKAudioPlayer(file: dyingSheepFile)
+        
+        dyingSheepEffect = AKOperationEffect(dyingSheep) {  player, parameters in
+            let sinusoid = AKOperation.sineWave(frequency: parameters[2])
+            let shift = parameters[0] + sinusoid * parameters[1] / 2.0
+            return player.pitchShift(semitones: shift)
+        }
+        
+        dyingSheepEffect.parameters = [8.836, 2.618, 1.524]
+        
+        dyingSheepBooster = AKBooster(dyingSheepEffect, gain: 2)
+        
+        let mixer = AKMixer(barkLoudPanner, twoBarkPanner, sheep1, dyingSheepBooster, boo, cheer, successPing, backgroundSampler)
         
         AudioKit.output = mixer
         AudioKit.start()
         
-        backgroundMusic = AKSequencer(filename: "smwintro", engine: AudioKit.engine)
-//        backgroundMusic.setGlobalAVAudioUnitOutput(backgroundSampler.samplerUnit)
-//        backgroundMusic.play()
+        backgroundMusic = AKSequencer(filename: "Sounds/smwintro", engine: AudioKit.engine)
     }
 }
