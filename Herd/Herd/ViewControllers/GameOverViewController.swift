@@ -103,7 +103,7 @@ class GameOverViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Main Menu", forState: .Normal)
-        button.setTitleColor(.whiteColor(), forState: .Normal)
+        button.setTitleColor(.orangeColor(), forState: .Normal)
         button.titleLabel?.font = UIFont.systemFontOfSize(72.0)
         button.addTarget(self, action: #selector(GameOverViewController.finish), forControlEvents: .TouchUpInside)
         return button
