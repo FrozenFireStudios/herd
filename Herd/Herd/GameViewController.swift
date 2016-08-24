@@ -9,6 +9,7 @@
 import UIKit
 import QuartzCore
 import SceneKit
+import AudioKit
 
 class GameViewController: UIViewController, SCNSceneRendererDelegate {
     
@@ -101,6 +102,15 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     func handleTap(gesture: UITapGestureRecognizer) {
         let point = gesture.locationInView(view)
         addPyramid(atPoint: point)
+       
+        if Conductor.sharedInstance.bark.isPlaying {
+            Conductor.sharedInstance.bark.stop()
+        }
+        
+        let pan = Double(((point.x / self.view.frame.width) * 2) - 1)
+        Conductor.sharedInstance.barkPanner.pan = pan
+        
+        Conductor.sharedInstance.bark.play()
     }
     
     var startingPosition: SCNVector3 = SCNVector3Zero
