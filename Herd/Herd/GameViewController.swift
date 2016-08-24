@@ -194,16 +194,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate, GameEngine
     }
     
     func handleDoubleTap(gesture: UITapGestureRecognizer) {
-//        gameEngine?.bark()
+        // temp until we get angles to feed the sound method farther in 
         let point = gesture.locationInView(view)
-       
-//        if Conductor.sharedInstance.barkLoud.isPlaying {
-//            Conductor.sharedInstance.barkLoud.stop()
-//        }
-        
         let pan = Double(((point.x / self.view.frame.width) * 2) - 1)
         Conductor.sharedInstance.barkLoudPanner.pan = pan
-        Conductor.sharedInstance.playSound(forKey: .BarkLoudKey)
+        gameEngine?.bark()
     }
     
     func handleTap(gesture: UITapGestureRecognizer) {
